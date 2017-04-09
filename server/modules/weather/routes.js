@@ -4,7 +4,7 @@ import axios from 'axios'
 
 dotenv.config()
 const { DARKSKY_KEY } = process.env
-const darkskyURL = (lat, lng) => `https://api.darksky.net/forecast/${DARKSKY_KEY}/${lat},${lng}`
+const darkskyURL = (lat, lng) => `https://api.darksky.net/forecast/e2c0603835aac191fbe931b8d2a209ad/${lat},${lng}`
 
 const routes = new Router()
 
@@ -15,9 +15,11 @@ routes.get('/weather', async (req, res) => {
       lng
     } = req.query
     const { data } = await axios.get(darkskyURL(lat, lng))
+
     return res.status(200).json({ data })
   } catch (error) {
     console.log(error)
+
     return res.status(500).json({ error: true, message: 'Server Error' })
   }
 })

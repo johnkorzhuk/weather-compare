@@ -44,6 +44,18 @@ a {
   font-size: 1.6rem;
 }
 
+.recharts-cartesian-grid-vertical {
+  line:not(:last-child) {
+    display: none;
+  }
+}
+
+.recharts-x-axis {
+  .recharts-cartesian-axis-tick:nth-child(odd) > text {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 570px) {
   .recharts-text {
     font-size: 1.4rem;

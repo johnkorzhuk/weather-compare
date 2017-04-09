@@ -7,19 +7,15 @@ import {
   DISMISS_NOTIFICATION
 } from './actions'
 
-import { roundToNearest } from './../../helpers/time'
-
-
 const INITIAL_STATE = {
   data: {},
-  graphData: {},
   error: false,
   loading: false,
   legendKeys: {},
   currColor: null,
   currLoc: null,
   notification: null,
-  deletethis: {}
+  selector: 'temperature'
 }
 
 const legendKeys = (state, action) => {
@@ -29,111 +25,6 @@ const legendKeys = (state, action) => {
       return {
         ...state,
         [newLoc.loc]: newLoc.color
-      }
-
-    default:
-      return state
-  }
-}
-
-export const deletethisdata = (state, selector) => {
-  let graphData = {}
-
-  const getTime = time => roundToNearest((time * 1000), 5)
-
-  Object.keys(state).forEach(locKey => {
-    const loc = state[locKey]
-    const time = getTime(loc.currently.time)
-
-    if (graphData[time]) {
-      graphData[time] = {
-        ...graphData[time],
-        [locKey]: loc.currently[selector]
-      }
-    } else {
-      graphData[time] = {
-        [locKey]: loc.currently[selector],
-        time
-      }
-    }
-
-    loc.hourly.data.forEach(hour => {
-      const time = getTime(hour.time)
-
-      if (graphData[time]) {
-        console.log(locKey, time)
-        graphData[time] = {
-          ...graphData[time],
-          [locKey]: hour[selector]
-        }
-      } else {
-        graphData[time] = {
-          [locKey]: hour[selector],
-          time
-        }
-      }
-    })
-  })
-
-  return graphData
-}
-
-const graphData = (state, action) => {
-  switch (action.type) {
-    case FETCH_WEATHER_SUCCESS:
-      const newLoc = action.data[Object.keys(action.data)[0]]
-      const { time, temperature } = newLoc.currently
-      const currTimes = Object.keys(state)
-      const fullTime = roundToNearest((time * 1000), 5)
-
-      // todo: fix this repetetive logic
-      const getCurrentData = () => {
-        if (currTimes.includes(fullTime.toString())) {
-          return {
-            [fullTime]: {
-              [newLoc.loc]: temperature,
-              ...state[fullTime]
-            }
-          }
-        } else {
-          return {
-            [fullTime]: {
-              time: fullTime,
-              [newLoc.loc]: temperature
-            }
-          }
-        }
-      }
-      const newState = {
-        ...getCurrentData(),
-        ...newLoc.hourly.data.reduce((aggr, curr, index) => {
-          if ((index + 2) % 5 === 0) {
-            const { time, temperature } = curr
-            const fullTime = time * 1000
-            if (currTimes.includes(fullTime.toString())) {
-              aggr[fullTime] = {
-                [newLoc.loc]: temperature,
-                ...state[fullTime]
-              }
-            } else {
-              aggr[fullTime] = {
-                time: fullTime,
-                [newLoc.loc]: temperature
-              }
-            }
-          }
-          return aggr
-        }, {})
-      }
-      return {
-        ...currTimes
-          .filter(time => !Object.keys(newState).includes(time))
-          .map((time) => state[time])
-          .reduce((aggr, curr) => {
-            aggr[curr.time] = curr
-            return aggr
-          }, {}),
-        ...newState
       }
 
     default:
@@ -190,10 +81,6 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         legendKeys: {
           ...legendKeys(state.legendKeys, action)
-        },
-        graphData: {
-          // this needs to be a selector
-          ...graphData(state.graphData, action)
         },
         data: {
           ...state.data,

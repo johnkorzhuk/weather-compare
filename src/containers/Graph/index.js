@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { connect } from 'react-redux'
-import { deletethisdata } from './../../store/weather/reducer'
 
+import { getGraphData } from './../../store/weather/selectors'
 import { getHour, getFullReadableTime } from './../../helpers/time'
 import { CustomTooltip } from './../../components/index'
 import { CustomLegend } from './../index'
@@ -24,7 +24,7 @@ const formatY = val => `${Math.round(val)}°`
     // weatherData: Object.values(state.weather.graphData),
     dataKeys: state.weather.legendKeys,
     error: state.weather.error,
-    weatherData: deletethisdata(state.weather.data, 'temperature')
+    weatherData: getGraphData(state)
   })
 )
 class Graph extends Component {
