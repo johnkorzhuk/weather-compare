@@ -1,0 +1,56 @@
+@import "normalize.css";
+
+:root {
+  --main-color: #313131;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--main-color);
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit; 
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.recharts-text {
+  font-size: 1.6rem;
+  fill: white;
+}
+
+.recharts-legend-wrapper {
+  padding-left: 65px;
+  padding-bottom: 20px;
+}
+
+.recharts-legend-item {
+  font-size: 1.6rem;
+}
+
+@media only screen and (max-width: 570px) {
+  .recharts-text {
+    font-size: 1.4rem;
+  }
+
+  .recharts-legend-wrapper {
+    padding-left: 30px;
+    padding-bottom: 20px;
+  }
+}

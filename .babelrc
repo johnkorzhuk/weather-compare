@@ -1,0 +1,13 @@
+{
+  "presets": [
+    ["es2015", {"modules": false}],
+    "stage-2",
+    "react"
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    "react-hot-loader/babel",
+    "syntax-dynamic-import",
+    "recharts"
+  ]
+}
