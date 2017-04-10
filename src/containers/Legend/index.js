@@ -58,17 +58,13 @@ const X = styled.div`
 const CustomLegend = ({
   updateCurrLoc,
   deleteLoc,
-  payload,
-  currLoc,
-  dataKeys
+  payload
 }) => (
   <TransitionGroup component='ul'>
     {
       payload.map(({ color, value }) => (
         <CustomLegendItem
           animateOutDuration={100}
-          dataKeys={dataKeys}
-          currLoc={currLoc}
           deleteLoc={deleteLoc}
           updateCurrLoc={updateCurrLoc}
           key={`item-${value}`}
@@ -90,9 +86,7 @@ class CustomLegendItem extends Component {
   }
 
   _handleLocToggle = loc => {
-    if (loc !== this.props.currLoc) {
-      this.props.updateCurrLoc(loc)
-    }
+    this.props.updateCurrLoc(loc)
   }
 
   _handleLocDelete = loc => {
@@ -106,7 +100,7 @@ class CustomLegendItem extends Component {
       animateOutDuration
     } = this.props
 
-    let color = lighten(0.7, this.props.color)
+    let color = lighten(0.2, this.props.color)
     if (color === '#fff') color = this.props.color
 
     const {
@@ -139,9 +133,6 @@ class CustomLegendItem extends Component {
 }
 
 export default connect(
-  state => ({
-    currLoc: state.weather.currLoc,
-    dataKeys: state.weather.legendKeys
-  }),
+  undefined,
   { updateCurrLoc, deleteLoc }
 )(CustomLegend)

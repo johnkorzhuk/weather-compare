@@ -27,7 +27,10 @@ export const fetchWeather = query => async dispatch => {
       [loc]: {
         ...forecast.data,
         loc,
-        color: color
+        color,
+        legendKey: {
+          [loc]: color
+        }
       }
     }
 
@@ -39,8 +42,10 @@ export const fetchWeather = query => async dispatch => {
   }
 }
 
-export const updateCurrLoc = loc => dispatch => {
-  return dispatch({ type: UPDATE_CURR_LOC, data: { loc } })
+export const updateCurrLoc = loc => (dispatch, getState) => {
+  const { weather: { currLoc } } = getState()
+
+  return currLoc === loc ? null : dispatch({ type: UPDATE_CURR_LOC, data: { loc } })
 }
 
 export const deleteLoc = loc => dispatch => {

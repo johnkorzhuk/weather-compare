@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ForecastSection = styled.section`
+export const WeatherDataSection = styled.section`
   max-width: 100rem;
   margin: 25px auto 0;
   padding: 0 20px;

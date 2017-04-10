@@ -2,29 +2,21 @@ import React, { Component } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { connect } from 'react-redux'
 
-import { getGraphData } from './../../store/weather/selectors'
+import { getGraphData, getLegendKeys } from './../../store/weather/selectors'
 import { getHour, getFullReadableTime } from './../../helpers/time'
 import { CustomTooltip } from './../../components/index'
 import { CustomLegend } from './../index'
 
 
-const formatX = val => {
-  const diff = 1000 * 60 * 5
-  const timeIsPlusOrMinus5Min = Math.abs((Date.now() - val)) <= diff
-  if (timeIsPlusOrMinus5Min) {
-    return 'nowish'
-  }
-  return getHour(val)
-}
+const formatX = val => getHour(val)
 
 const formatY = val => `${Math.round(val)}°`
 
 @connect(
   state => ({
-    // weatherData: Object.values(state.weather.graphData),
-    dataKeys: state.weather.legendKeys,
     error: state.weather.error,
-    weatherData: getGraphData(state)
+    weatherData: getGraphData(state),
+    dataKeys: getLegendKeys(state)
   })
 )
 class Graph extends Component {

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { mix, transparentize } from 'polished'
 
 import { fetchWeather } from './../../store/weather/actions'
+import { getLegendKeys } from './../../store/weather/selectors'
 
 import { Container } from './../../components/index'
 
@@ -68,7 +69,7 @@ const initState = {
 @connect(
   state => ({
     color: state.weather.currColor,
-    dataKeys: Object.keys(state.weather.legendKeys)
+    dataKeys: getLegendKeys(state)
   }),
   { fetchWeather }
 )

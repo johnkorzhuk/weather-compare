@@ -11,54 +11,36 @@ const INITIAL_STATE = {
   data: {},
   error: false,
   loading: false,
-  legendKeys: {},
   currColor: null,
   currLoc: null,
   notification: null,
   selector: 'temperature'
 }
 
-const legendKeys = (state, action) => {
-  switch (action.type) {
-    case FETCH_WEATHER_SUCCESS:
-      const newLoc = action.data[Object.keys(action.data)[0]]
-      return {
-        ...state,
-        [newLoc.loc]: newLoc.color
-      }
-
-    default:
-      return state
-  }
-}
-
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_CURR_LOC:
+      const { loc } = action.data
+
       return {
         ...state,
-        currLoc: action.data.loc,
-        currColor: state.legendKeys[action.data.loc],
+        currLoc: loc,
+        currColor: state.data[loc].color,
         error: null
       }
 
     case DELETE_LOC:
       const locs = Object.keys(state.data)
       const indexOfActionData = locs.indexOf(action.data.loc)
-      const currLoc = locs[indexOfActionData === 0 ? 1 : indexOfActionData - 1]
+      const currLoc = locs[indexOfActionData === 0 ? 1 : indexOfActionData - 1] || null
+
       return {
         ...state,
         currLoc,
-        currColor: state.legendKeys[currLoc],
+        currColor: state.data[currLoc] ? state.data[currLoc].color : null,
         data: locs.filter(loc => loc !== action.data.loc)
           .reduce((aggr, curr) => {
             aggr[curr] = state.data[curr]
-            return aggr
-          }, {}),
-        legendKeys: Object.keys(state.legendKeys)
-          .filter(key => key !== action.data.loc)
-          .reduce((aggr, curr) => {
-            aggr[curr] = state.legendKeys[curr]
             return aggr
           }, {}),
         error: null
@@ -79,9 +61,6 @@ export default (state = INITIAL_STATE, action) => {
     case FETCH_WEATHER_SUCCESS:
       return {
         ...state,
-        legendKeys: {
-          ...legendKeys(state.legendKeys, action)
-        },
         data: {
           ...state.data,
           ...action.data

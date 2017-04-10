@@ -54,6 +54,10 @@ a {
   .recharts-cartesian-axis-tick:nth-child(odd) > text {
     display: none;
   }
+
+  .recharts-text {
+    transform: translateY(10px);
+  }
 }
 
 @media only screen and (max-width: 570px) {

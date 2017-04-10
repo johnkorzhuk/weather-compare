@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 const getData = state => state.weather.data
 const getSelector = state => state.weather.selector
 
+
 export const getGraphData = createSelector(
   [ getData, getSelector ],
   (data, selector) => {
@@ -28,7 +29,17 @@ export const getGraphData = createSelector(
       })
     })
 
-
     return graphData
+  }
+)
+
+export const getLegendKeys = createSelector(
+  [ getData ],
+  data => {
+    return Object.keys(data)
+      .reduce((aggr, curr) => {
+        aggr[curr] = data[curr].color
+        return aggr
+      }, {})
   }
 )

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Skycons from 'react-skycons'
 
 import { upperCaseUnderscore } from './../../helpers/string'
-import { ForecastWrapper, ForecastItem, IconWrapper, ItemWrapper, ItemSubHeader, ItemSubHeaderContent, ForecastSection, Heading, HeadingTitle, TempIconWrapper } from './styled'
+import { ForecastWrapper, ForecastItem, IconWrapper, ItemWrapper, ItemSubHeader, ItemSubHeaderContent, WeatherDataSection, Heading, HeadingTitle, TempIconWrapper } from './styled'
 
 const checkPropAvaliability = props => typeof props !== 'undefined'
 
@@ -18,7 +18,7 @@ const initState = {
     error: state.weather.error
   })
 )
-class Forecast extends Component {
+class WeatherData extends Component {
   state = initState
 
   componentWillReceiveProps (nextProps) {
@@ -54,7 +54,7 @@ class Forecast extends Component {
       } = data
 
       return (
-        <ForecastSection
+        <WeatherDataSection
           duration={transitionDuration}
           opacity={this.state.opacity}
           loading={this.loaded}>
@@ -106,10 +106,10 @@ class Forecast extends Component {
               </ItemWrapper>
             </ForecastItem>
           </ForecastWrapper>
-        </ForecastSection>
+        </WeatherDataSection>
       )
     }
   }
 }
 
-export default Forecast
+export default WeatherData

@@ -5,8 +5,9 @@ import { mix } from 'polished'
 
 import { SearchBar, WeatherData, Notification, Graph } from './../index'
 
-const SearchForecastSection = styled.section`
+const MainWrapper = styled.section`
   width: 100%;
+  height: 100vh;
   position: relative;
   z-index: 9;
   display: inline-block;
@@ -18,7 +19,7 @@ const SearchForecastSection = styled.section`
   );
 `
 // Hack to get gradient transition working
-const SearchForecastSectionHelper = styled.div`
+const MainWrapperHelper = styled.div`
   position: absolute;
   z-index: -1;
   top: 0;
@@ -46,7 +47,7 @@ const initialState = {
     color: state.weather.currColor
   })
 )
-class ForecastSection extends Component {
+class WeatherSection extends Component {
   state = initialState
 
   componentWillReceiveProps (nextProps) {
@@ -76,10 +77,10 @@ class ForecastSection extends Component {
     } = this.props
 
     return (
-      <SearchForecastSection
+      <MainWrapper
         bgc={bgc}
         color={currColor}>
-        <SearchForecastSectionHelper
+        <MainWrapperHelper
           bgc={bgc}
           color={nextColor}
           opacity={opacity}
@@ -90,9 +91,9 @@ class ForecastSection extends Component {
         <Notification>Something went wrong</Notification>
         <WeatherData transitionDuration={500} />
         <Graph />
-      </SearchForecastSection>
+      </MainWrapper>
     )
   }
 }
 
-export default ForecastSection
+export default WeatherSection
