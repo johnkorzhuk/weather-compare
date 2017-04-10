@@ -10,8 +10,10 @@ const MainWrapper = styled.section`
   width: 100%;
   height: 100vh;
   position: relative;
+  left: 0;
   z-index: 9;
   display: inline-block;
+  transform: translateX(-300px);
   background: linear-gradient(
     180deg,
     ${props => props.color ? `${mix(0.30, props.color, props.bgc)}` : props.bgc} 5%,

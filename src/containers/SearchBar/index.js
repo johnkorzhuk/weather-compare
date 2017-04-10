@@ -6,7 +6,7 @@ import { mix, transparentize } from 'polished'
 import { fetchWeather } from './../../store/weather/actions'
 import { getLegendKeys } from './../../store/weather/selectors'
 
-import { Container } from './../../components/index'
+import { Container, Button } from './../../components/index'
 
 const Wrapper = styled.form`
   width: 70%;
@@ -40,22 +40,6 @@ const Input = styled.input`
     transition: color ${props => props.duration}ms linear;
     color: ${props => props.color ? `${transparentize(0.5, mix(0.30, props.color, props.bgc))}` : transparentize(0.5, props.bgc)};;
   }
-
-  &:focus {
-    outline: none;  
-  }
-`
-
-const Button = styled.button`
-  flex-grow: 1;
-  border-top: 1px solid white;
-  border-right: 1px solid white;
-  border-bottom: 1px solid white;
-  border-left: none;
-  color: white;
-  background-color: transparent;
-  font-size: 0.75em;
-  cursor: pointer;
 
   &:focus {
     outline: none;  

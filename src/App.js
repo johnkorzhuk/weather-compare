@@ -1,9 +1,18 @@
 import React from 'react'
-import { WeatherSection } from './containers/index'
+import { WeatherSection, SettingsSideBar } from './containers/index'
+import styled from 'styled-components'
+
+const AppContainer = styled.main`
+  display: flex;
+  overflow: hidden;
+`
 
 const App = () =>
-  <WeatherSection
-    bgc='#313131'
-    transitionDuration={500} />
+  <AppContainer>
+    <WeatherSection
+      bgc='#313131'
+      transitionDuration={500} />
+    <SettingsSideBar />
+  </AppContainer>
 
 export default App

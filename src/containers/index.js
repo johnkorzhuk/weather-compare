@@ -4,6 +4,7 @@ import SearchBar from './SearchBar/index'
 import Notification from './Notification/index'
 import Graph from './Graph/index'
 import CustomLegend from './Legend/index'
+import SettingsSideBar from './SettingsSideBar/index'
 
 export {
   WeatherSection,
@@ -11,5 +12,6 @@ export {
   SearchBar,
   Notification,
   Graph,
-  CustomLegend
+  CustomLegend,
+  SettingsSideBar
 }
