@@ -3,26 +3,23 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import {
-  FETCH_WEATHER,
   FETCH_WEATHER_ERROR
 } from './../../store/weather/actions'
 
-import { Spinner, ErrorIcon } from './../../components/index'
+import { ErrorIcon } from './../../components/index'
 
 const Container = styled.div`
-  padding: 7px 15px 7px 50px;
+  padding: 7px 15px 7px 25px;
   font-size: 1.6rem;
   color: white;
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 66px;
+  left: 20px;
 `
 
 const Notification = ({ notification, currColor }) => {
   if (notification) {
     switch (notification.type) {
-      case FETCH_WEATHER:
-        return <Container><Spinner color={currColor} />{notification.message}</Container>
       case FETCH_WEATHER_ERROR:
         return <Container><ErrorIcon />{notification.message} </Container>
       default:

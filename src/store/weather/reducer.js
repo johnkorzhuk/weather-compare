@@ -51,11 +51,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
         currColor: action.data.color,
-        error: null,
-        notification: {
-          type: FETCH_WEATHER,
-          message: 'loading...'
-        }
+        error: null
       }
 
     case FETCH_WEATHER_SUCCESS:
@@ -66,19 +62,15 @@ export default (state = INITIAL_STATE, action) => {
           ...action.data
         },
         loading: false,
-        currLoc: Object.keys(action.data)[0],
-        notification: null
+        currLoc: Object.keys(action.data)[0]
       }
 
     case FETCH_WEATHER_ERROR:
       return {
         ...state,
         loading: false,
-        error: {
-          message: 'unable to get location',
-          error: action.e
-        },
-        currColor: state.legendKeys[state.currLoc],
+        error: action.e,
+        currColor: state.data[state.currLoc] ? state.data[state.currLoc].color : null,
         notification: {
           type: FETCH_WEATHER_ERROR,
           message: `couldn't get weather data`

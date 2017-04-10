@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { mix } from 'polished'
 
 import { SearchBar, WeatherData, Notification, Graph } from './../index'
+import { Spinner } from './../../components/index'
 
 const MainWrapper = styled.section`
   width: 100%;
@@ -44,7 +45,8 @@ const initialState = {
 
 @connect(
   state => ({
-    color: state.weather.currColor
+    color: state.weather.currColor,
+    loading: state.weather.loading
   })
 )
 class WeatherSection extends Component {
@@ -73,7 +75,8 @@ class WeatherSection extends Component {
 
     const {
       transitionDuration = 1000,
-      bgc
+      bgc,
+      loading
     } = this.props
 
     return (
@@ -88,6 +91,7 @@ class WeatherSection extends Component {
         <SearchBar
           bgc={bgc}
           transitionDuration={transitionDuration} />
+        { loading && <Spinner /> }
         <Notification>Something went wrong</Notification>
         <WeatherData transitionDuration={500} />
         <Graph />

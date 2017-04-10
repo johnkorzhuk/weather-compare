@@ -11,16 +11,16 @@ const bouncedelay = keyframes`
 
 const SpinnerContainer = styled.div`
   width: 30px;
-  text-align: center;
-  left: 9px;
-  top: 7px;
+  margin: 15px auto;
   position: absolute;
+  left: 0;
+  right: 0;
 `
 
 const SpinnerItem1 = styled.div`
   width: 10px;
   height: 10px;
-  background-color: ${({ color }) => color || '#313131'};
+  background-color: white;
 
   border-radius: 100%;
   display: inline-block;
@@ -31,7 +31,7 @@ const SpinnerItem1 = styled.div`
 const SpinnerItem2 = styled.div`
   width: 10px;
   height: 10px;
-  background-color: ${({ color }) => color || '#313131'};
+  background-color: white;
 
   border-radius: 100%;
   display: inline-block;
@@ -42,7 +42,7 @@ const SpinnerItem2 = styled.div`
 const SpinnerItem3 = styled.div`
   width: 10px;
   height: 10px;
-  background-color: ${({ color }) => color || '#313131'};
+  background-color: white;
 
   border-radius: 100%;
   display: inline-block;

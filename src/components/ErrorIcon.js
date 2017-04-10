@@ -5,7 +5,7 @@ const Icon = styled.div`
   font-size: 24px;
   font-weight: 700;
   color: #FF4949;
-  left: 24px;
+  left: 0;
   top: 3px;
   position: absolute;
 `

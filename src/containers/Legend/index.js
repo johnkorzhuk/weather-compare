@@ -100,7 +100,7 @@ class CustomLegendItem extends Component {
       animateOutDuration
     } = this.props
 
-    let color = lighten(0.2, this.props.color)
+    let color = lighten(0.1, this.props.color)
     if (color === '#fff') color = this.props.color
 
     const {
