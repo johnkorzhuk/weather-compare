@@ -21,7 +21,7 @@ const CheckboxInput = styled.input`
   border-radius: 1px;
   position: absolute;
   border-width: 0;
-  transition: all 200ms linear;
+  transition: all 100ms linear;
   width: 14px;
   height: 14px;
   border-radius: 50%;

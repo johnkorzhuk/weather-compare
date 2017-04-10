@@ -14,7 +14,22 @@ const INITIAL_STATE = {
   currColor: null,
   currLoc: null,
   notification: null,
-  selector: 'temperature'
+  selector: 'temperature',
+  selectors: {
+    humidity: true,
+    cloudCoverage: false,
+    dewPoint: true,
+    ozone: false,
+    precipProbability: true,
+    pressure: true,
+    visibility: true,
+    windSpeed: false,
+    windBearing: false
+  },
+  units: {
+    'F,mph': true,
+    'C,kmph': false
+  }
 }
 
 export default (state = INITIAL_STATE, action) => {

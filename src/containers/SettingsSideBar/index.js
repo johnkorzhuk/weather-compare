@@ -53,7 +53,7 @@ const Button = styled.button`
 `
 
 
-const SettingsSideBar = ({ color }) => (
+const SettingsSideBar = ({ selectors }) => (
   <SideBarContainer>
     <X>&#10005;</X>
     <SettingsHeader>Settings</SettingsHeader>
@@ -66,5 +66,7 @@ const SettingsSideBar = ({ color }) => (
 )
 
 export default connect(
-  state => ({ color: state.weather.currColor })
+  state => ({
+    selectors: state.weather.selectors
+  })
 )(SettingsSideBar)
