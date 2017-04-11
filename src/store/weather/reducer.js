@@ -5,7 +5,9 @@ import {
   UPDATE_CURR_LOC,
   DELETE_LOC,
   DISMISS_NOTIFICATION,
+  TOGGLE_SIDEBAR,
   TOGGLE_SELECTOR,
+  TOGGLE_UNITS,
   UNITS_F_MPH,
   UNITS_C_KMPH
 } from './actions'
@@ -25,7 +27,7 @@ const INITIAL_STATE = {
     ozone: true,
     precipProbability: true,
     pressure: true,
-    visibility: false,
+    visibility: true,
     windSpeed: true,
     windBearing: true,
     temperature: true
@@ -33,7 +35,8 @@ const INITIAL_STATE = {
   units: {
     [UNITS_F_MPH]: false,
     [UNITS_C_KMPH]: true
-  }
+  },
+  sidebar: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -96,12 +99,28 @@ export default (state = INITIAL_STATE, action) => {
         }
       }
 
+    case TOGGLE_SIDEBAR:
+      return {
+        ...state,
+        sidebar: !state.sidebar
+      }
+
     case TOGGLE_SELECTOR:
       return {
         ...state,
         selectors: {
           ...state.selectors,
           [action.data.selector]: !state.selectors[action.data.selector]
+        }
+      }
+
+    case TOGGLE_UNITS:
+      return {
+        ...state,
+        units: {
+          ...state.units,
+          [UNITS_F_MPH]: !state.units[UNITS_F_MPH],
+          [UNITS_C_KMPH]: !state.units[UNITS_C_KMPH]
         }
       }
 

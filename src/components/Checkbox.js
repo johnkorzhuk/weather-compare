@@ -4,10 +4,11 @@ import styled from 'styled-components'
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
+  margin: 10px 0;
 `
 
 const CheckboxLabel = styled.label`
-  margin-left: 10px;
+  padding: 2px 10px;
   font-size: 1.4rem;
   cursor: pointer;
 `

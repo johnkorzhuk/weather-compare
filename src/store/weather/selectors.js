@@ -86,7 +86,7 @@ const formatSelectors = (selector, selectorName, unit) => {
       return `${selector.value} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
 
     default:
-      console.error('Wrong type of unit passed to formatSelectors function')
+      console.error('Wrong type of unit passed to formatSelectors')
       break
   }
 }
@@ -95,8 +95,8 @@ const getData = state => state.weather.data
 // rename this, its for the graph
 const getSelector = state => state.weather.selector
 const getSelectors = state => state.weather.selectors
-const getSelectedUnit = state => Object.keys(state.weather.units).filter(unit => state.weather.units[unit])[0]
 const getCurrLoc = state => state.weather.currLoc
+export const getSelectedUnit = state => Object.keys(state.weather.units).filter(unit => state.weather.units[unit])[0]
 
 export const getGraphData = createSelector(
   [ getData, getSelector ],

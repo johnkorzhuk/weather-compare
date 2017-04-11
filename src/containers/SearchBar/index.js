@@ -6,7 +6,8 @@ import { mix, transparentize } from 'polished'
 import { fetchWeather } from './../../store/weather/actions'
 import { getLegendKeys } from './../../store/weather/selectors'
 
-import { Container, Button } from './../../components/index'
+import { Container } from './../../components/index'
+import { SettingsIcon } from './../index'
 
 const Wrapper = styled.form`
   width: 70%;
@@ -18,9 +19,27 @@ const Wrapper = styled.form`
   line-height: 3.2rem;
 
   @media only screen and (max-width: 570px) {
-    width: 90%;
-    font-size: 1.8rem;
-    line-height: 3.6rem;
+    width: 80%;
+  }
+`
+
+const Button = styled.button`
+  flex-grow: 1;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  border-left: none;
+  color: white;
+  background-color: transparent;
+  font-size: ${({ fontSize }) => fontSize || '0.75em'};
+  cursor: pointer;
+
+  &:focus {
+    outline: none;  
+  }
+
+  @media only screen and (max-width: 570px) {
+    flex-grow: 3;
   }
 `
 
@@ -43,6 +62,10 @@ const Input = styled.input`
 
   &:focus {
     outline: none;  
+  }
+
+  @media only screen and (max-width: 570px) {
+    flex-grow: 8;
   }
 `
 
@@ -99,7 +122,9 @@ class SearchBar extends Component {
           <Button
             type='submit'
             color={color}>
-            find</Button>
+            find
+          </Button>
+          <SettingsIcon />
         </Wrapper>
       </Container>
     )

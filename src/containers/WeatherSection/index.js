@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Overdrive from 'react-overdrive'
 import { mix } from 'polished'
 
 import { SearchBar, WeatherData, Notification, Graph } from './../index'
@@ -14,13 +13,15 @@ const MainWrapper = styled.section`
   left: 0;
   z-index: 9;
   display: inline-block;
-  transform: translateX(0);
+  transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'})
   background: linear-gradient(
     180deg,
     ${props => props.color ? `${mix(0.30, props.color, props.bgc)}` : props.bgc} 5%,
     ${props => props.color ? `${mix(0.15, props.color, props.bgc)}` : props.bgc} 20%,
     ${props => props.bgc}
   );
+
+  transition: transform 100ms linear;
 `
 // Hack to get gradient transition working
 const MainWrapperHelper = styled.div`
@@ -49,7 +50,8 @@ const initialState = {
 @connect(
   state => ({
     color: state.weather.currColor,
-    loading: state.weather.loading
+    loading: state.weather.loading,
+    sidebar: state.weather.sidebar
   })
 )
 class WeatherSection extends Component {
@@ -79,11 +81,13 @@ class WeatherSection extends Component {
     const {
       transitionDuration = 1000,
       bgc,
-      loading
+      loading,
+      sidebar
     } = this.props
 
     return (
       <MainWrapper
+        sidebar={sidebar}
         bgc={bgc}
         color={currColor}>
         <MainWrapperHelper

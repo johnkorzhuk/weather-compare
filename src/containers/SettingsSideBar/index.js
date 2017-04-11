@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { getSettingsSelectors } from './../../store/weather/selectors'
-import { toggleSelector } from './../../store/weather/actions'
+import { getSettingsSelectors, getSelectedUnit } from './../../store/weather/selectors'
+import { toggleSelector, toggleUnits, UNITS_F_MPH, UNITS_C_KMPH } from './../../store/weather/actions'
 
 import { Checkbox } from './../../components/index'
 
 const SideBarContainer = styled.div`
-  width: 300px;
-
+  width: 280px;
+  transform: translateX(${({ sidebar }) => sidebar ? 0 : '100%'})
   background-color: #2c2c2c;
   color: white;
   position: fixed;
@@ -17,16 +17,11 @@ const SideBarContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
+  transition: transform 100ms linear;
 `
 
-const X = styled.div`
-  font-size: 3rem;
-  padding: 10px 0 0 10px;
-  cursor: pointer;
-`
-
-const SettingsHeader = styled.h3`
-  margin: -15px 0 50px 0;
+const SettingsHeader = styled.h2`
+  margin: 20px 0 40px 0;
   font-size: 2rem;
   text-align: center;
 `
@@ -44,47 +39,74 @@ const Button = styled.button`
   border-right: 1px solid white;
   border-bottom: 1px solid white;
   border-left: ${({ left }) => left ? 'none' : '1px solid white;'};
-  color: ${({ color }) => color || 'white'};
+  color: ${({ focused }) => focused ? 'white' : '#2c2c2c'};
   background-color: ${({ focused }) => focused ? '#2c2c2c' : 'white'};
   font-size: 1.2rem;
   cursor: ${({ focused }) => focused ? 'auto' : 'pointer'};
   display: inline-block;
-  transition: background-color 500ms ease-in-out;
+  transition: background-color 100ms linear,
+              color 100ms linear;
 
   &:focus {
     outline: none;  
   }
 `
 
+const WeatherDataControlsHeader = styled.h3`
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+`
+
+const WeatherDataControlsWrapper = styled.div`
+  margin: 35px 0 0 25px;
+`
+
 
 const SettingsSideBar = ({
   selectors,
-  toggleSelector
+  unit,
+  sidebar,
+  toggleSideBar,
+  toggleSelector,
+  toggleUnits
 }) => (
-  <SideBarContainer>
-    <X>&#10005;</X>
+  <SideBarContainer sidebar={sidebar}>
     <SettingsHeader>Settings</SettingsHeader>
     <ButtonsWrapper>
-      <Button focused bgc={'#2c2c2c'}>˚F, mph</Button>
-      <Button left bgc='white' color='#2c2c2c'>˚C, km/h</Button>
+      <Button
+        onClick={() => toggleUnits(UNITS_F_MPH)}
+        focused={unit === UNITS_F_MPH}>
+        ˚F, mph
+      </Button>
+      <Button
+        onClick={() => toggleUnits(UNITS_C_KMPH)}
+        focused={unit === UNITS_C_KMPH}
+        left>
+        ˚C, km/h
+      </Button>
     </ButtonsWrapper>
-    {
-      selectors.map(({ selector, readable, selected }) => (
-        <Checkbox
-          key={selector}
-          selector={selector}
-          checked={selected}
-          _handleChange={() => toggleSelector(selector)}>
-          {readable}
-        </Checkbox>
-      ))
-    }
+    <WeatherDataControlsWrapper>
+      <WeatherDataControlsHeader>weather data controls</WeatherDataControlsHeader>
+      {
+        selectors.map(({ selector, readable, selected }) => (
+          <Checkbox
+            key={selector}
+            selector={selector}
+            checked={selected}
+            _handleChange={() => toggleSelector(selector)}>
+            {readable}
+          </Checkbox>
+        ))
+      }
+    </WeatherDataControlsWrapper>
   </SideBarContainer>
 )
 
 export default connect(
   state => ({
-    selectors: getSettingsSelectors(state)
+    selectors: getSettingsSelectors(state),
+    unit: getSelectedUnit(state),
+    sidebar: state.weather.sidebar
   }),
-  { toggleSelector }
+  { toggleSelector, toggleUnits }
 )(SettingsSideBar)

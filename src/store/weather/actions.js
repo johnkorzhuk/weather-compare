@@ -2,6 +2,8 @@ import randomColor from 'randomcolor'
 import weatherService from './../../services/weather'
 import geocodeService from './../../services/geocode'
 
+import { getSelectedUnit } from './../../store/weather/selectors'
+
 // constants
 export const UNITS_F_MPH = 'F,mph'
 export const UNITS_C_KMPH = 'C,kmph'
@@ -15,7 +17,9 @@ export const DISMISS_NOTIFICATION = 'weather/DISMISS_NOTIFICATION'
 export const UPDATE_CURR_LOC = 'weather/UPDATE_CURR_LOC'
 export const DELETE_LOC = 'weather/DELETE_LOC'
 
+export const TOGGLE_SIDEBAR = 'weather/TOGGLE_SIDEBAR'
 export const TOGGLE_SELECTOR = 'weather/TOGGLE_SELECTOR'
+export const TOGGLE_UNITS = 'weather/TOGGLE_UNITS'
 
 export const fetchWeather = query => async dispatch => {
   const color = randomColor()
@@ -58,6 +62,15 @@ export const deleteLoc = loc => dispatch => {
   return dispatch({ type: DELETE_LOC, data: { loc } })
 }
 
+export const toggleSideBar = () => dispatch => {
+  return dispatch({ type: TOGGLE_SIDEBAR })
+}
+
 export const toggleSelector = selector => dispatch => {
   return dispatch({ type: TOGGLE_SELECTOR, data: { selector } })
+}
+
+export const toggleUnits = (unit) => (dispatch, getState) => {
+  const currUnit = getSelectedUnit(getState())
+  return unit === currUnit ? null : dispatch({ type: TOGGLE_UNITS })
 }
