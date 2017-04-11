@@ -39,8 +39,8 @@ const Button = styled.button`
   border-right: 1px solid white;
   border-bottom: 1px solid white;
   border-left: ${({ left }) => left ? 'none' : '1px solid white;'};
-  color: ${({ focused }) => focused ? 'white' : '#2c2c2c'};
-  background-color: ${({ focused }) => focused ? '#2c2c2c' : 'white'};
+  color: ${({ focused }) => focused ? '#2c2c2c' : 'white'};
+  background-color: ${({ focused }) => focused ? 'white' : '#2c2c2c'};
   font-size: 1.2rem;
   cursor: ${({ focused }) => focused ? 'auto' : 'pointer'};
   display: inline-block;

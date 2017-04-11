@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Checkmark from 'react-icons/lib/fa/check'
 
 const CheckboxContainer = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const CheckboxInput = styled.input`
   appearance: none;
   top: 2px;
   left: 2px;
-  background: white;
+  background-color: #2c2c2c;
   border-radius: 1px;
   position: absolute;
   border-width: 0;
@@ -28,7 +29,7 @@ const CheckboxInput = styled.input`
   border-radius: 50%;
 
   &:checked {
-    background-color: #2c2c2c;
+    background-color: white;
   }
 
   &:focus {
@@ -59,6 +60,18 @@ const Checkbox = ({
         type='checkbox'
         checked={checked}
         onChange={_handleChange} />
+      {<Checkmark
+        onClick={_handleChange}
+        color='#2c2c2c'
+        size={17}
+        style={{
+          paddingTop: 1,
+          paddingLeft: 1,
+          transform: 'translateY(0)',
+          cursor: 'pointer',
+          opacity: checked ? 1 : 0,
+          transition: 'opacity 100ms linear'
+        }} />}
     </CheckboxWrap>
     <CheckboxLabel
       htmlFor={selector}>

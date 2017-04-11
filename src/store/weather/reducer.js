@@ -33,8 +33,8 @@ const INITIAL_STATE = {
     temperature: true
   },
   units: {
-    [UNITS_F_MPH]: false,
-    [UNITS_C_KMPH]: true
+    [UNITS_F_MPH]: true,
+    [UNITS_C_KMPH]: false
   },
   sidebar: false
 }
