@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect'
 
 import { MtoKM, FtoC } from './../../helpers/units'
-import {
-  UNITS_F_MPH,
-  UNITS_C_KMPH
-} from './actions'
+
+const UNITS_F_MPH = 'F,mph'
+const UNITS_C_KMPH = 'C,kmph'
+
+console.log(UNITS_F_MPH,
+  UNITS_C_KMPH)
 
 const SELECTORS_FORMAT = {
   temperature: {
@@ -80,6 +82,8 @@ const formatSelectors = (selector, selectorName, unit) => {
 
     case 'DISTANCE':
       const distance = unit === UNITS_F_MPH ? selector.value : MtoKM(selector.value)
+      console.log(SELECTORS_FORMAT[selectorName])
+      // console.log(unit, `${distance.toFixed(2)} ${SELECTORS_FORMAT[selectorName].unitSymbol[unit]}`)
       return `${distance.toFixed(2)} ${SELECTORS_FORMAT[selectorName].unitSymbol[unit]}`
 
     case 'DEGREE':
@@ -147,7 +151,9 @@ const getSelectorsCurrData = createSelector(
           aggr[curr] = {
             selected: selectors[curr],
             value: data[currLoc].currently[curr],
-            readable: SELECTORS_FORMAT[curr].readable
+            readable: SELECTORS_FORMAT[curr].readable,
+            icon: data[currLoc].currently.icon,
+            summary: data[currLoc].currently.summary
           }
           return aggr
         }, {})
@@ -159,15 +165,21 @@ export const getFormattedSelectors = createSelector(
   [ getSelectorsCurrData, getSelectedUnit ],
   (selectors, unit) => {
     if (selectors) {
+      let data = {}
       return Object.keys(selectors)
-        .filter(selector => selectors[selector].selected)
+        .filter(selector => {
+          if (selectors[selector].icon) data.icon = selectors[selector].icon
+          if (selectors[selector].summary) data.summary = selectors[selector].summary.toLowerCase()
+          return selectors[selector].selected
+        })
         .reduce((aggr, curr) => {
+          const { readable } = selectors[curr]
           aggr[curr] = {
             value: formatSelectors(selectors[curr], curr, unit),
-            readable: selectors[curr].readable
+            readable
           }
           return aggr
-        }, {})
+        }, data)
     }
   }
 )

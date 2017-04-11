@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import Skycons from 'react-skycons'
 
 import { upperCaseUnderscore } from './../../helpers/string'
+import { getFormattedSelectors } from './../../store/weather/selectors'
 
-import { ForecastWrapper, ForecastItem, IconWrapper, ItemWrapper, ItemSubHeader, ItemSubHeaderContent, WeatherDataSection, Heading, HeadingTitle, TempIconWrapper } from './styled'
+import { ForecastWrapper, IconWrapper, WeatherDataSection, Heading, HeadingTitle, TempIconWrapper } from './styled'
+import { ForecastItem } from './../../components/index'
 
 const checkPropAvaliability = props => typeof props !== 'undefined'
 
@@ -14,9 +16,10 @@ const initState = {
 
 @connect(
   state => ({
-    data: state.weather.data[state.weather.currLoc],
     loading: state.weather.loading,
-    error: state.weather.error
+    error: state.weather.error,
+    data: getFormattedSelectors(state),
+    currLoc: state.weather.currLoc
   })
 )
 class WeatherData extends Component {
@@ -43,15 +46,17 @@ class WeatherData extends Component {
   render () {
     const {
       data,
-      transitionDuration = 1000
+      transitionDuration = 1000,
+      currLoc
     } = this.props
 
-    if (typeof data === 'undefined') {
+    if (!data) {
       return null
     } else {
       const {
-        currently: { icon, temperature, summary, humidity, dewPoint, visibility, pressure, precipProbability },
-        loc
+        temperature,
+        icon,
+        summary
       } = data
 
       return (
@@ -67,45 +72,26 @@ class WeatherData extends Component {
                   icon={checkPropAvaliability(icon) ? upperCaseUnderscore(icon) : 'PARTLY_CLOUDY_DAY'}
                   autoplay />
               </IconWrapper>
-              <ItemWrapper>
-                <ItemSubHeaderContent left>{checkPropAvaliability(temperature) ? `${temperature} °` : '--'}</ItemSubHeaderContent>
-                <ItemSubHeader left>{checkPropAvaliability(summary) ? summary.toLowerCase() : null}</ItemSubHeader>
-              </ItemWrapper>
+              <ForecastItem
+                left
+                value={temperature.value}
+                name={summary} />
             </TempIconWrapper>
-            <HeadingTitle>{loc}</HeadingTitle>
+            <HeadingTitle>{currLoc}</HeadingTitle>
           </Heading>
 
           <ForecastWrapper>
-            <ForecastItem>
-              <ItemWrapper>
-                <ItemSubHeaderContent>{checkPropAvaliability(precipProbability) ? `${Math.round(precipProbability) * 100} %` : '--'}</ItemSubHeaderContent>
-                <ItemSubHeader>chance of rain</ItemSubHeader>
-              </ItemWrapper>
-            </ForecastItem>
-            <ForecastItem>
-              <ItemWrapper>
-                <ItemSubHeaderContent>{checkPropAvaliability(humidity) ? `${Math.round(humidity * 100)} %` : '--'}</ItemSubHeaderContent>
-                <ItemSubHeader>humidity</ItemSubHeader>
-              </ItemWrapper>
-            </ForecastItem>
-            <ForecastItem>
-              <ItemWrapper>
-                <ItemSubHeaderContent>{checkPropAvaliability(dewPoint) ? `${Math.round(dewPoint)} °` : '--'}</ItemSubHeaderContent>
-                <ItemSubHeader>dew point</ItemSubHeader>
-              </ItemWrapper>
-            </ForecastItem>
-            <ForecastItem>
-              <ItemWrapper>
-                <ItemSubHeaderContent>{checkPropAvaliability(visibility) ? `${visibility} mi` : '--'}</ItemSubHeaderContent>
-                <ItemSubHeader>visibility</ItemSubHeader>
-              </ItemWrapper>
-            </ForecastItem>
-            <ForecastItem>
-              <ItemWrapper>
-                <ItemSubHeaderContent>{checkPropAvaliability(pressure) ? `${Math.round(pressure)} mb` : '--'}</ItemSubHeaderContent>
-                <ItemSubHeader>pressure</ItemSubHeader>
-              </ItemWrapper>
-            </ForecastItem>
+            {
+              Object.keys(data).map(item => {
+                if (item === 'summary' || item === 'icon' || item === 'temperature') return null
+                return (
+                  <ForecastItem
+                    key={data[item].readable}
+                    value={data[item].value}
+                    name={data[item].readable} />
+                )
+              })
+            }
           </ForecastWrapper>
         </WeatherDataSection>
       )

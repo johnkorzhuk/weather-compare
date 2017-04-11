@@ -7,10 +7,12 @@ import {
   DISMISS_NOTIFICATION,
   TOGGLE_SIDEBAR,
   TOGGLE_SELECTOR,
-  TOGGLE_UNITS,
-  UNITS_F_MPH,
-  UNITS_C_KMPH
+  TOGGLE_UNITS
 } from './actions'
+
+// constants
+const UNITS_F_MPH = 'F,mph'
+const UNITS_C_KMPH = 'C,kmph'
 
 const INITIAL_STATE = {
   data: {},

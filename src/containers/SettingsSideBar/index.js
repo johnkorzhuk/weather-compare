@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { getSettingsSelectors, getSelectedUnit } from './../../store/weather/selectors'
-import { toggleSelector, toggleUnits, UNITS_F_MPH, UNITS_C_KMPH } from './../../store/weather/actions'
-
+import { toggleSelector, toggleUnits } from './../../store/weather/actions'
 import { Checkbox } from './../../components/index'
+
+// constants
+const UNITS_F_MPH = 'F,mph'
+const UNITS_C_KMPH = 'C,kmph'
 
 const SideBarContainer = styled.div`
   width: 280px;

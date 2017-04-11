@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 const AppContainer = styled.main`
   display: flex;
-  overflow: hidden;
 `
 
 const App = () =>
