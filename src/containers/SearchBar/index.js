@@ -9,18 +9,24 @@ import { getLegendKeys } from './../../store/weather/selectors'
 import { Container } from './../../components/index'
 import { SettingsIcon } from './../index'
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
+  display: flex;
   width: 70%;
   margin: 0 auto;
-  padding-top: 25px;
+  align-items: flex-end;
+  
+  @media only screen and (max-width: 570px) {
+    width: 90%;
+  }
+`
+
+const FormWrapper = styled.form`
+  margin-top: 25px;
   display: flex;
+  flex-grow: 10;
   justify-content: center;
   font-size: 1.6rem;
   line-height: 3.2rem;
-
-  @media only screen and (max-width: 570px) {
-    width: 80%;
-  }
 `
 
 const Button = styled.button`
@@ -107,23 +113,25 @@ class SearchBar extends Component {
 
     return (
       <Container>
-        <Wrapper onSubmit={this._handleFormSubmit}>
-          <Input
-            type='text'
-            placeholder='city or zip'
-            value={this.state.input}
-            onChange={this._handleCange}
-            duration={transitionDuration}
-            color={color}
-            bgc={bgc}
-            autoFocus
-            required
-            innerRef={el => { this.input = el }} />
-          <Button
-            type='submit'
-            color={color}>
-            find
-          </Button>
+        <Wrapper>
+          <FormWrapper onSubmit={this._handleFormSubmit}>
+            <Input
+              type='text'
+              placeholder='city or zip'
+              value={this.state.input}
+              onChange={this._handleCange}
+              duration={transitionDuration}
+              color={color}
+              bgc={bgc}
+              autoFocus
+              required
+              innerRef={el => { this.input = el }} />
+            <Button
+              type='submit'
+              color={color}>
+              find
+            </Button>
+          </FormWrapper>
           <SettingsIcon />
         </Wrapper>
       </Container>
