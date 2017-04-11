@@ -15,6 +15,8 @@ export const DISMISS_NOTIFICATION = 'weather/DISMISS_NOTIFICATION'
 export const UPDATE_CURR_LOC = 'weather/UPDATE_CURR_LOC'
 export const DELETE_LOC = 'weather/DELETE_LOC'
 
+export const TOGGLE_SELECTOR = 'weather/TOGGLE_SELECTOR'
+
 export const fetchWeather = query => async dispatch => {
   const color = randomColor()
 
@@ -54,4 +56,8 @@ export const updateCurrLoc = loc => (dispatch, getState) => {
 
 export const deleteLoc = loc => dispatch => {
   return dispatch({ type: DELETE_LOC, data: { loc } })
+}
+
+export const toggleSelector = selector => dispatch => {
+  return dispatch({ type: TOGGLE_SELECTOR, data: { selector } })
 }

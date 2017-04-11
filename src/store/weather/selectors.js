@@ -138,7 +138,7 @@ export const getLegendKeys = createSelector(
   }
 )
 
-export const getSelectorsCurrData = createSelector(
+const getSelectorsCurrData = createSelector(
   [ getSelectors, getData, getCurrLoc ],
   (selectors, data, currLoc) => {
     if (data[currLoc]) {
@@ -155,12 +155,11 @@ export const getSelectorsCurrData = createSelector(
   }
 )
 
-
 export const getFormattedSelectors = createSelector(
   [ getSelectorsCurrData, getSelectedUnit ],
   (selectors, unit) => {
     if (selectors) {
-      const arr = Object.keys(selectors)
+      return Object.keys(selectors)
         .filter(selector => selectors[selector].selected)
         .reduce((aggr, curr) => {
           aggr[curr] = {
@@ -169,8 +168,21 @@ export const getFormattedSelectors = createSelector(
           }
           return aggr
         }, {})
-      console.log(arr)
     }
   }
 )
 
+export const getSettingsSelectors = createSelector(
+  [ getSelectors ],
+  selectors => {
+    return Object.keys(selectors).map(item => {
+      if (item !== 'temperature') {
+        return {
+          selector: item,
+          readable: SELECTORS_FORMAT[item].readable,
+          selected: selectors[item]
+        }
+      }
+    }).filter(Boolean)
+  }
+)

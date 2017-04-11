@@ -12,7 +12,8 @@ const VENDOR_LIBS = [
   'axios',
   'react-skycons',
   'reselect',
-  'randomcolor'
+  'randomcolor',
+  'react-overdrive'
 ]
 
 module.exports = {

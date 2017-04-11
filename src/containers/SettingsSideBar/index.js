@@ -2,10 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import { getSettingsSelectors } from './../../store/weather/selectors'
+import { toggleSelector } from './../../store/weather/actions'
+
 import { Checkbox } from './../../components/index'
 
 const SideBarContainer = styled.div`
   width: 300px;
+
   background-color: #2c2c2c;
   color: white;
   position: fixed;
@@ -53,7 +57,10 @@ const Button = styled.button`
 `
 
 
-const SettingsSideBar = ({ selectors }) => (
+const SettingsSideBar = ({
+  selectors,
+  toggleSelector
+}) => (
   <SideBarContainer>
     <X>&#10005;</X>
     <SettingsHeader>Settings</SettingsHeader>
@@ -61,12 +68,23 @@ const SettingsSideBar = ({ selectors }) => (
       <Button focused bgc={'#2c2c2c'}>˚F, mph</Button>
       <Button left bgc='white' color='#2c2c2c'>˚C, km/h</Button>
     </ButtonsWrapper>
-    <Checkbox bgc={'#2c2c2c'}>temperature</Checkbox>
+    {
+      selectors.map(({ selector, readable, selected }) => (
+        <Checkbox
+          key={selector}
+          selector={selector}
+          checked={selected}
+          _handleChange={() => toggleSelector(selector)}>
+          {readable}
+        </Checkbox>
+      ))
+    }
   </SideBarContainer>
 )
 
 export default connect(
   state => ({
-    selectors: state.weather.selectors
-  })
+    selectors: getSettingsSelectors(state)
+  }),
+  { toggleSelector }
 )(SettingsSideBar)

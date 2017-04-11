@@ -45,10 +45,24 @@ const CheckboxWrap = styled.div`
   border-radius: 50%;
 `
 
-const Checkbox = ({ children }) => (
+const Checkbox = ({
+  children,
+  checked,
+  selector,
+  _handleChange
+}) => (
   <CheckboxContainer>
-    <CheckboxWrap><CheckboxInput id='temperature' type='checkbox' /></CheckboxWrap>
-    <CheckboxLabel htmlFor='temperature'>{children}</CheckboxLabel>
+    <CheckboxWrap>
+      <CheckboxInput
+        id={selector}
+        type='checkbox'
+        checked={checked}
+        onChange={_handleChange} />
+    </CheckboxWrap>
+    <CheckboxLabel
+      htmlFor={selector}>
+      {children}
+    </CheckboxLabel>
   </CheckboxContainer>
 )
 

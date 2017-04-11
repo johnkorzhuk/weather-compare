@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import Overdrive from 'react-overdrive'
 import { mix } from 'polished'
 
 import { SearchBar, WeatherData, Notification, Graph } from './../index'
@@ -13,7 +14,7 @@ const MainWrapper = styled.section`
   left: 0;
   z-index: 9;
   display: inline-block;
-  transform: translateX(-300px);
+  transform: translateX(0);
   background: linear-gradient(
     180deg,
     ${props => props.color ? `${mix(0.30, props.color, props.bgc)}` : props.bgc} 5%,
@@ -94,7 +95,7 @@ class WeatherSection extends Component {
           bgc={bgc}
           transitionDuration={transitionDuration} />
         { loading && <Spinner /> }
-        <Notification>Something went wrong</Notification>
+        <Notification />
         <WeatherData transitionDuration={500} />
         <Graph />
       </MainWrapper>

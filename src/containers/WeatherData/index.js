@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Skycons from 'react-skycons'
 
 import { upperCaseUnderscore } from './../../helpers/string'
-import { getFormattedSelectors } from './../../store/weather/selectors'
 
 import { ForecastWrapper, ForecastItem, IconWrapper, ItemWrapper, ItemSubHeader, ItemSubHeaderContent, WeatherDataSection, Heading, HeadingTitle, TempIconWrapper } from './styled'
 
@@ -17,8 +16,7 @@ const initState = {
   state => ({
     data: state.weather.data[state.weather.currLoc],
     loading: state.weather.loading,
-    error: state.weather.error,
-    data1: getFormattedSelectors(state)
+    error: state.weather.error
   })
 )
 class WeatherData extends Component {

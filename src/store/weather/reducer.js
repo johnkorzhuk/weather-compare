@@ -5,6 +5,7 @@ import {
   UPDATE_CURR_LOC,
   DELETE_LOC,
   DISMISS_NOTIFICATION,
+  TOGGLE_SELECTOR,
   UNITS_F_MPH,
   UNITS_C_KMPH
 } from './actions'
@@ -24,7 +25,7 @@ const INITIAL_STATE = {
     ozone: true,
     precipProbability: true,
     pressure: true,
-    visibility: true,
+    visibility: false,
     windSpeed: true,
     windBearing: true,
     temperature: true
@@ -92,6 +93,15 @@ export default (state = INITIAL_STATE, action) => {
         notification: {
           type: FETCH_WEATHER_ERROR,
           message: `couldn't get weather data`
+        }
+      }
+
+    case TOGGLE_SELECTOR:
+      return {
+        ...state,
+        selectors: {
+          ...state.selectors,
+          [action.data.selector]: !state.selectors[action.data.selector]
         }
       }
 
