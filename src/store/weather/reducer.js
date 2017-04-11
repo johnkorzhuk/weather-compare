@@ -4,7 +4,9 @@ import {
   FETCH_WEATHER_ERROR,
   UPDATE_CURR_LOC,
   DELETE_LOC,
-  DISMISS_NOTIFICATION
+  DISMISS_NOTIFICATION,
+  UNITS_F_MPH,
+  UNITS_C_KMPH
 } from './actions'
 
 const INITIAL_STATE = {
@@ -17,18 +19,19 @@ const INITIAL_STATE = {
   selector: 'temperature',
   selectors: {
     humidity: true,
-    cloudCoverage: false,
+    cloudCover: true,
     dewPoint: true,
-    ozone: false,
+    ozone: true,
     precipProbability: true,
     pressure: true,
     visibility: true,
-    windSpeed: false,
-    windBearing: false
+    windSpeed: true,
+    windBearing: true,
+    temperature: true
   },
   units: {
-    'F,mph': true,
-    'C,kmph': false
+    [UNITS_F_MPH]: false,
+    [UNITS_C_KMPH]: true
   }
 }
 

@@ -1,50 +1,102 @@
 import { createSelector } from 'reselect'
 
 import { MtoKM, FtoC } from './../../helpers/units'
+import {
+  UNITS_F_MPH,
+  UNITS_C_KMPH
+} from './actions'
 
-const SELECTORS = {
+const SELECTORS_FORMAT = {
+  temperature: {
+    readable: 'temperature',
+    units: 'TEMP',
+    unitSymbol: '°'
+  },
   humidity: {
     readable: 'humidity',
-    units: '%'
+    units: 'PERCENT',
+    unitSymbol: '%'
   },
-  cloudCoverage: {
+  cloudCover: {
     readable: 'cloud coverage',
-    units: '%'
+    units: 'PERCENT',
+    unitSymbol: '%'
   },
   dewPoint: {
     readable: 'dew point',
-    units: 'temp'
+    units: 'TEMP',
+    unitSymbol: '°'
   },
   ozone: {
     readable: 'ozone',
-    units: 'DU'
+    units: 'DU',
+    unitSymbol: 'DU'
   },
   precipProbability: {
     readable: 'precipitation %',
-    units: '%'
+    units: 'PERCENT',
+    unitSymbol: '%'
   },
   pressure: {
     readable: 'pressure',
-    units: 'mb'
+    units: 'MB',
+    unitSymbol: 'mb'
   },
   visibility: {
     readable: 'visibility',
-    units: 'm|km'
+    units: 'DISTANCE',
+    unitSymbol: {
+      [UNITS_F_MPH]: 'm',
+      [UNITS_C_KMPH]: 'km'
+    }
   },
   windSpeed: {
     readable: 'wind speed',
-    units: 'm|km/h'
+    units: 'DISTANCE',
+    unitSymbol: {
+      [UNITS_F_MPH]: 'mph',
+      [UNITS_C_KMPH]: 'km/h'
+    }
   },
   windBearing: {
     readable: 'wind bearing',
-    units: '°'
+    units: 'DEGREE',
+    unitSymbol: '°'
+  }
+}
+
+const formatSelectors = (selector, selectorName, unit) => {
+  switch (SELECTORS_FORMAT[selectorName].units) {
+    case 'PERCENT':
+      return `${Math.round(selector.value * 100)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
+
+    case 'TEMP':
+      const temp = unit === UNITS_F_MPH ? selector.value : FtoC(selector.value)
+      return `${temp.toFixed(1)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
+
+    case 'MB':
+    case 'DU':
+      return `${selector.value.toFixed(1)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
+
+    case 'DISTANCE':
+      const distance = unit === UNITS_F_MPH ? selector.value : MtoKM(selector.value)
+      return `${distance.toFixed(2)} ${SELECTORS_FORMAT[selectorName].unitSymbol[unit]}`
+
+    case 'DEGREE':
+      return `${selector.value} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
+
+    default:
+      console.error('Wrong type of unit passed to formatSelectors function')
+      break
   }
 }
 
 const getData = state => state.weather.data
+// rename this, its for the graph
 const getSelector = state => state.weather.selector
 const getSelectors = state => state.weather.selectors
-const getUnits = state => state.weather.units
+const getSelectedUnit = state => Object.keys(state.weather.units).filter(unit => state.weather.units[unit])[0]
+const getCurrLoc = state => state.weather.currLoc
 
 export const getGraphData = createSelector(
   [ getData, getSelector ],
@@ -86,17 +138,39 @@ export const getLegendKeys = createSelector(
   }
 )
 
-export const getReadableSelectors = createSelector(
-  [ getSelectors, getUnits ],
-  (selectors, unit) => {
-    return Object.keys(selectors).reduce((aggr, curr) => {
-      aggr[curr] = {
-        selected: selectors[curr]
-      }
-
-      return aggr
-    }, {})
+export const getSelectorsCurrData = createSelector(
+  [ getSelectors, getData, getCurrLoc ],
+  (selectors, data, currLoc) => {
+    if (data[currLoc]) {
+      return Object.keys(selectors)
+        .reduce((aggr, curr) => {
+          aggr[curr] = {
+            selected: selectors[curr],
+            value: data[currLoc].currently[curr],
+            readable: SELECTORS_FORMAT[curr].readable
+          }
+          return aggr
+        }, {})
+    }
   }
 )
 
+
+export const getFormattedSelectors = createSelector(
+  [ getSelectorsCurrData, getSelectedUnit ],
+  (selectors, unit) => {
+    if (selectors) {
+      const arr = Object.keys(selectors)
+        .filter(selector => selectors[selector].selected)
+        .reduce((aggr, curr) => {
+          aggr[curr] = {
+            value: formatSelectors(selectors[curr], curr, unit),
+            readable: selectors[curr].readable
+          }
+          return aggr
+        }, {})
+      console.log(arr)
+    }
+  }
+)
 

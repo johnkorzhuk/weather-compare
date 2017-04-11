@@ -2,6 +2,10 @@ import randomColor from 'randomcolor'
 import weatherService from './../../services/weather'
 import geocodeService from './../../services/geocode'
 
+// constants
+export const UNITS_F_MPH = 'F,mph'
+export const UNITS_C_KMPH = 'C,kmph'
+// actions
 export const FETCH_WEATHER = 'weather/FETCH_WEATHER'
 export const FETCH_WEATHER_SUCCESS = 'weather/FETCH_WEATHER_SUCCESS'
 export const FETCH_WEATHER_ERROR = 'weather/FETCH_WEATHER_ERROR'
