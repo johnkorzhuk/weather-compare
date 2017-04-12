@@ -7,7 +7,6 @@ import { fetchWeather } from './../../store/weather/actions'
 import { getLegendKeys } from './../../store/weather/selectors'
 
 import { Container } from './../../components/index'
-import { SettingsIcon } from './../index'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +15,12 @@ const Wrapper = styled.div`
   align-items: flex-end;
   
   @media only screen and (max-width: 570px) {
-    width: 90%;
+    width: 80%;
+    margin-left: 20px;
+  }
+
+  @media only screen and (max-width: 320px) {
+    margin-left: 10px;
   }
 `
 
@@ -132,7 +136,6 @@ class SearchBar extends Component {
               find
             </Button>
           </FormWrapper>
-          <SettingsIcon />
         </Wrapper>
       </Container>
     )

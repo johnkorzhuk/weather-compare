@@ -2,27 +2,31 @@ import React, { Component } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { connect } from 'react-redux'
 
-import { getGraphData, getLegendKeys } from './../../store/weather/selectors'
+import { getGraphData, getLegendKeys, getSelectedUnit } from './../../store/weather/selectors'
 import { getHour, getFullReadableTime } from './../../helpers/time'
 import { CustomTooltip } from './../../components/index'
 import { CustomLegend } from './../index'
 
+import { formatSelectors } from './../../helpers/units'
 
 const formatX = val => getHour(val)
 
-const formatY = val => `${Math.round(val)}°`
+const formatY = (...args) => formatSelectors(...args, true)
 
 @connect(
   state => ({
     error: state.weather.error,
     weatherData: getGraphData(state),
-    dataKeys: getLegendKeys(state)
+    dataKeys: getLegendKeys(state),
+    selector: state.weather.graphSelector,
+    unit: getSelectedUnit(state)
   })
 )
 class Graph extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     if (Object.keys(this.props.dataKeys).length !== Object.keys(nextProps.dataKeys).length) return true
     else if (this.props.weatherData.length === 0) return true
+    else if (this.props.weatherData !== nextProps.weatherData) return true
     else return false
   }
 
@@ -30,20 +34,26 @@ class Graph extends Component {
     const labelContent = getFullReadableTime(label)
 
     return (
-      <CustomTooltip label={labelContent} payload={payload} />
+      <CustomTooltip
+        unit={this.props.unit}
+        selector={this.props.selector}
+        label={labelContent}
+        payload={payload} />
     )
   }
 
   render () {
     const {
       dataKeys,
-      error
+      error,
+      selector,
+      unit
     } = this.props
 
     if (Object.keys(dataKeys).length > 0 && !error) {
       const weatherData = Object.values(this.props.weatherData)
       return (
-        <ResponsiveContainer width='100%' height={600}>
+        <ResponsiveContainer width='102%' height={600} >
           <LineChart
             data={weatherData}
             margin={{top: 50, right: 50, left: 0, bottom: 5}}>
@@ -56,15 +66,14 @@ class Graph extends Component {
             <YAxis
               padding={{ bottom: 20 }}
               domain={[ 'dataMin', 'dataMax' ]}
-              tickFormatter={formatY} />
-            <CartesianGrid strokeDasharray='3 3' />
+              tickFormatter={val => formatY(val, selector, unit)} />
+            <CartesianGrid
+              strokeDasharray='3 3' />
             <Tooltip
               content={this._renderTooltip} />
             <Legend
               content={<CustomLegend />}
-              align='left'
-              verticalAlign='top'
-              wrapperStyle={{ color: 'white' }} />
+              verticalAlign='top' />
             {
               Object.keys(dataKeys).map(key =>
                 <Line

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { mix } from 'polished'
 
-import { SearchBar, WeatherData, Notification, Graph } from './../index'
+import { SearchBar, WeatherData, Notification, Graph, GraphSelectors } from './../index'
 import { Spinner } from './../../components/index'
 
 const MainWrapper = styled.section`
@@ -12,6 +12,7 @@ const MainWrapper = styled.section`
   position: relative;
   left: 0;
   z-index: 9;
+  overflow-x: ${({ sidebar }) => sidebar ? 'visible' : 'hidden'};
   display: inline-block;
   transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'})
   background: linear-gradient(
@@ -101,6 +102,7 @@ class WeatherSection extends Component {
         { loading && <Spinner /> }
         <Notification />
         <WeatherData transitionDuration={500} />
+        <GraphSelectors />
         <Graph />
       </MainWrapper>
     )

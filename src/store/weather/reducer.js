@@ -10,9 +10,10 @@ import {
   TOGGLE_UNITS
 } from './actions'
 
-// constants
-const UNITS_F_MPH = 'F,mph'
-const UNITS_C_KMPH = 'C,kmph'
+import {
+  UNITS_F_MPH,
+  UNITS_C_KMPH
+} from './../../helpers/units'
 
 const INITIAL_STATE = {
   data: {},
@@ -21,7 +22,7 @@ const INITIAL_STATE = {
   currColor: null,
   currLoc: null,
   notification: null,
-  selector: 'temperature',
+  graphSelector: 'temperature',
   selectors: {
     humidity: true,
     cloudCover: true,

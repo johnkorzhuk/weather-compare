@@ -82,8 +82,9 @@ class WeatherData extends Component {
 
           <ForecastWrapper>
             {
-              Object.keys(data).map(item => {
+              Object.keys(data).map((item, i) => {
                 if (item === 'summary' || item === 'icon' || item === 'temperature') return null
+
                 return (
                   <ForecastItem
                     key={data[item].readable}

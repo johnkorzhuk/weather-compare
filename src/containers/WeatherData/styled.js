@@ -1,15 +1,14 @@
 import styled from 'styled-components'
 
 export const WeatherDataSection = styled.section`
-  margin: 50px auto 0;
-  padding: 0 20px;
+  margin: 60px 20px 0 -5px;
   color: white;
   opacity: ${props => props.opacity};
   transition: opacity ${props => props.duration}ms linear;
 `
 
 export const Heading = styled.div`
-  margin: 35px 0;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

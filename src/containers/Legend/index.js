@@ -18,6 +18,11 @@ const LegendContainer = styled.li`
   opacity: ${props => props.unmounting ? 0 : 1}
   transition: opacity ${props => props.animateOutDuration}ms ease-in-out,
               top ${props => props.animateOutDuration}ms ease-in-out;
+
+
+  @media only screen and (max-width: 700px) {
+    padding: 10px 10px;
+  }
 `
 
 const LegendContent = styled.div`
@@ -51,7 +56,7 @@ const X = styled.div`
   
   @media only screen and (max-width: 700px) {
     opacity: 1;
-    top: 14px;
+    top: 9px;
   }
 `
 
@@ -115,7 +120,8 @@ class CustomLegendItem extends Component {
         id={value}
         onMouseEnter={e => this.setState({ hovered: true })}
         onMouseLeave={e => this.setState({ hovered: false })}>
-        <LegendContent onClick={() => this._handleLocToggle(value)}>
+        <LegendContent
+          onClick={() => this._handleLocToggle(value)}>
           <LegendDash
             hover={hovered}
             color={color}>

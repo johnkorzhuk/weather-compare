@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { formatSelectors } from './../helpers/units'
+
 const ToolTipContainer = styled.div`
   width: 200px;
   padding: 10px 15px;
@@ -42,7 +44,12 @@ const ToolTipDataValue = styled.div`
   text-align: center;
 `
 
-const CustomTooltip = ({ label, payload }) => (
+const CustomTooltip = ({
+  label,
+  payload,
+  unit,
+  selector
+}) => (
   <ToolTipContainer>
     <ToolTipLabel>{label}</ToolTipLabel>
     {
@@ -52,7 +59,7 @@ const CustomTooltip = ({ label, payload }) => (
           value &&
           <ToolTipDataContainer key={name}>
             <ToolTipDataName>{name}</ToolTipDataName>
-            <ToolTipDataValue>{value}°</ToolTipDataValue>
+            <ToolTipDataValue>{formatSelectors(value, selector, unit, true)}</ToolTipDataValue>
           </ToolTipDataContainer>
         )
     }

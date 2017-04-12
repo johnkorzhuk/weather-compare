@@ -1,110 +1,20 @@
 import { createSelector } from 'reselect'
 
-import { MtoKM, FtoC } from './../../helpers/units'
+import {
+  SELECTORS_FORMAT,
+  formatSelectors
+} from './../../helpers/units'
 
-const UNITS_F_MPH = 'F,mph'
-const UNITS_C_KMPH = 'C,kmph'
-
-console.log(UNITS_F_MPH,
-  UNITS_C_KMPH)
-
-const SELECTORS_FORMAT = {
-  temperature: {
-    readable: 'temperature',
-    units: 'TEMP',
-    unitSymbol: '°'
-  },
-  humidity: {
-    readable: 'humidity',
-    units: 'PERCENT',
-    unitSymbol: '%'
-  },
-  cloudCover: {
-    readable: 'cloud coverage',
-    units: 'PERCENT',
-    unitSymbol: '%'
-  },
-  dewPoint: {
-    readable: 'dew point',
-    units: 'TEMP',
-    unitSymbol: '°'
-  },
-  ozone: {
-    readable: 'ozone',
-    units: 'DU',
-    unitSymbol: 'DU'
-  },
-  precipProbability: {
-    readable: 'precipitation %',
-    units: 'PERCENT',
-    unitSymbol: '%'
-  },
-  pressure: {
-    readable: 'pressure',
-    units: 'MB',
-    unitSymbol: 'mb'
-  },
-  visibility: {
-    readable: 'visibility',
-    units: 'DISTANCE',
-    unitSymbol: {
-      [UNITS_F_MPH]: 'm',
-      [UNITS_C_KMPH]: 'km'
-    }
-  },
-  windSpeed: {
-    readable: 'wind speed',
-    units: 'DISTANCE',
-    unitSymbol: {
-      [UNITS_F_MPH]: 'mph',
-      [UNITS_C_KMPH]: 'km/h'
-    }
-  },
-  windBearing: {
-    readable: 'wind bearing',
-    units: 'DEGREE',
-    unitSymbol: '°'
-  }
-}
-
-const formatSelectors = (selector, selectorName, unit) => {
-  switch (SELECTORS_FORMAT[selectorName].units) {
-    case 'PERCENT':
-      return `${Math.round(selector.value * 100)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-
-    case 'TEMP':
-      const temp = unit === UNITS_F_MPH ? selector.value : FtoC(selector.value)
-      return `${temp.toFixed(1)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-
-    case 'MB':
-    case 'DU':
-      return `${selector.value.toFixed(1)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-
-    case 'DISTANCE':
-      const distance = unit === UNITS_F_MPH ? selector.value : MtoKM(selector.value)
-      console.log(SELECTORS_FORMAT[selectorName])
-      // console.log(unit, `${distance.toFixed(2)} ${SELECTORS_FORMAT[selectorName].unitSymbol[unit]}`)
-      return `${distance.toFixed(2)} ${SELECTORS_FORMAT[selectorName].unitSymbol[unit]}`
-
-    case 'DEGREE':
-      return `${selector.value} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-
-    default:
-      console.error('Wrong type of unit passed to formatSelectors')
-      break
-  }
-}
 
 const getData = state => state.weather.data
-// rename this, its for the graph
-const getSelector = state => state.weather.selector
+const getGraphSelector = state => state.weather.graphSelector
 const getSelectors = state => state.weather.selectors
 const getCurrLoc = state => state.weather.currLoc
 export const getSelectedUnit = state => Object.keys(state.weather.units).filter(unit => state.weather.units[unit])[0]
 
 export const getGraphData = createSelector(
-  [ getData, getSelector ],
-  (data, selector) => {
+  [ getData, getGraphSelector, getSelectedUnit ],
+  (data, graphSelector, unit) => {
     let graphData = {}
 
     Object.keys(data).forEach(locKey => {
@@ -116,11 +26,11 @@ export const getGraphData = createSelector(
         if (graphData[time]) {
           graphData[time] = {
             ...graphData[time],
-            [locKey]: hour[selector]
+            [locKey]: hour[graphSelector]
           }
         } else {
           graphData[time] = {
-            [locKey]: hour[selector],
+            [locKey]: hour[graphSelector],
             time
           }
         }
@@ -175,7 +85,7 @@ export const getFormattedSelectors = createSelector(
         .reduce((aggr, curr) => {
           const { readable } = selectors[curr]
           aggr[curr] = {
-            value: formatSelectors(selectors[curr], curr, unit),
+            value: formatSelectors(selectors[curr].value, curr, unit, true),
             readable
           }
           return aggr
