@@ -18,6 +18,8 @@ export const TOGGLE_SIDEBAR = 'weather/TOGGLE_SIDEBAR'
 export const TOGGLE_SELECTOR = 'weather/TOGGLE_SELECTOR'
 export const TOGGLE_UNITS = 'weather/TOGGLE_UNITS'
 
+export const UPDATE_GRAPH_SELECTOR = 'weather/UPDATE_GRAPH_SELECTOR'
+
 export const fetchWeather = query => async dispatch => {
   const color = randomColor()
 
@@ -67,7 +69,12 @@ export const toggleSelector = selector => dispatch => {
   return dispatch({ type: TOGGLE_SELECTOR, data: { selector } })
 }
 
-export const toggleUnits = (unit) => (dispatch, getState) => {
+export const toggleUnits = unit => (dispatch, getState) => {
   const currUnit = getSelectedUnit(getState())
   return unit === currUnit ? null : dispatch({ type: TOGGLE_UNITS })
+}
+
+export const updateGraphSelector = selector => (dispatch, getState) => {
+  const { graphSelector } = getState()
+  return selector === graphSelector ? null : dispatch({ type: UPDATE_GRAPH_SELECTOR, data: { selector } })
 }

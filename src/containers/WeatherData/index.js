@@ -4,6 +4,7 @@ import Skycons from 'react-skycons'
 
 import { upperCaseUnderscore } from './../../helpers/string'
 import { getFormattedSelectors } from './../../store/weather/selectors'
+import { updateGraphSelector } from './../../store/weather/actions'
 
 import { ForecastWrapper, IconWrapper, WeatherDataSection, Heading, HeadingTitle, TempIconWrapper } from './styled'
 import { ForecastItem } from './../../components/index'
@@ -20,7 +21,8 @@ const initState = {
     error: state.weather.error,
     data: getFormattedSelectors(state),
     currLoc: state.weather.currLoc
-  })
+  }),
+  { updateGraphSelector }
 )
 class WeatherData extends Component {
   state = initState
@@ -47,7 +49,8 @@ class WeatherData extends Component {
     const {
       data,
       transitionDuration = 1000,
-      currLoc
+      currLoc,
+      updateGraphSelector
     } = this.props
 
     if (!data) {
@@ -75,6 +78,7 @@ class WeatherData extends Component {
               <ForecastItem
                 left
                 value={temperature.value}
+                _handleClick={() => updateGraphSelector('temperature')}
                 name={summary} />
             </TempIconWrapper>
             <HeadingTitle>{currLoc}</HeadingTitle>
@@ -84,9 +88,9 @@ class WeatherData extends Component {
             {
               Object.keys(data).map((item, i) => {
                 if (item === 'summary' || item === 'icon' || item === 'temperature') return null
-
                 return (
                   <ForecastItem
+                    _handleClick={() => updateGraphSelector(item)}
                     key={data[item].readable}
                     value={data[item].value}
                     name={data[item].readable} />

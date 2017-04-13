@@ -6,7 +6,6 @@ import Graph from './Graph/index'
 import CustomLegend from './Legend/index'
 import SettingsSideBar from './SettingsSideBar/index'
 import SettingsIcon from './SettingsIcon/index'
-import GraphSelectors from './GraphSelectors/index'
 
 export {
   WeatherSection,
@@ -16,6 +15,5 @@ export {
   Graph,
   CustomLegend,
   SettingsSideBar,
-  SettingsIcon,
-  GraphSelectors
+  SettingsIcon
 }

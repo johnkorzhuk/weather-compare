@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { mix } from 'polished'
 
-import { SearchBar, WeatherData, Notification, Graph, GraphSelectors } from './../index'
+import { SearchBar, WeatherData, Notification, Graph } from './../index'
 import { Spinner } from './../../components/index'
 
 const MainWrapper = styled.section`
@@ -102,7 +102,6 @@ class WeatherSection extends Component {
         { loading && <Spinner /> }
         <Notification />
         <WeatherData transitionDuration={500} />
-        <GraphSelectors />
         <Graph />
       </MainWrapper>
     )

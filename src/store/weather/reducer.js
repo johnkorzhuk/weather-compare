@@ -7,7 +7,8 @@ import {
   DISMISS_NOTIFICATION,
   TOGGLE_SIDEBAR,
   TOGGLE_SELECTOR,
-  TOGGLE_UNITS
+  TOGGLE_UNITS,
+  UPDATE_GRAPH_SELECTOR
 } from './actions'
 
 import {
@@ -125,6 +126,12 @@ export default (state = INITIAL_STATE, action) => {
           [UNITS_F_MPH]: !state.units[UNITS_F_MPH],
           [UNITS_C_KMPH]: !state.units[UNITS_C_KMPH]
         }
+      }
+
+    case UPDATE_GRAPH_SELECTOR:
+      return {
+        ...state,
+        graphSelector: action.data.selector
       }
 
     case DISMISS_NOTIFICATION:

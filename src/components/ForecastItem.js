@@ -7,6 +7,7 @@ const ForecastItemContainer = styled.div`
   align-items: center;
   justify-content: center;
   float: left;
+  cursor: pointer;
   margin-top: ${props => props.left ? 0 : '35px'};
 
   @media only screen and (max-width: 730px) {
@@ -36,9 +37,12 @@ const ItemSubHeader = styled.div`
 const ForecastItem = ({
   value,
   name,
-  left
+  left,
+  _handleClick
 }) => (
-  <ForecastItemContainer left={left}>
+  <ForecastItemContainer
+    onClick={_handleClick}
+    left={left}>
     <ItemWrapper>
       <ItemSubHeaderContent left={left}>{value}</ItemSubHeaderContent>
       <ItemSubHeader left={left}>{name}</ItemSubHeader>
