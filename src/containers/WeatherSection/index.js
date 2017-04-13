@@ -12,7 +12,6 @@ const MainWrapper = styled.section`
   position: relative;
   left: 0;
   z-index: 9;
-  overflow-x: ${({ sidebar }) => sidebar ? 'visible' : 'hidden'};
   display: inline-block;
   transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'})
   background: linear-gradient(
@@ -31,7 +30,7 @@ const MainWrapperHelper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   opacity: ${props => props.opacity};
   transition: opacity ${props => props.duration}ms linear;
   background: linear-gradient(
