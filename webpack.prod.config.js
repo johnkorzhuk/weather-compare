@@ -11,8 +11,7 @@ const VENDOR_LIBS = [
   'redux',
   'axios',
   'react-skycons',
-  'reselect',
-  'randomcolor'
+  'reselect'
 ]
 
 module.exports = {

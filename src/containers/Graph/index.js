@@ -7,11 +7,22 @@ import { getHour, getFullReadableTime } from './../../helpers/time'
 import { CustomTooltip } from './../../components/index'
 import { CustomLegend } from './../index'
 
-import { formatSelectors } from './../../helpers/units'
+import { formatSelectors, SELECTORS_FORMAT, UNITS_F_MPH } from './../../helpers/units'
 
-const formatX = val => getHour(val)
+const getSymbol = (selector, unit) => {
+  switch (SELECTORS_FORMAT[selector].units) {
+    case 'DISTANCE':
+      return SELECTORS_FORMAT[selector].unitSymbol[unit]
 
-const formatY = (...args) => formatSelectors(...args)
+    case 'TEMP':
+      return unit === UNITS_F_MPH
+        ? `${SELECTORS_FORMAT[selector].unitSymbol}F`
+        : `${SELECTORS_FORMAT[selector].unitSymbol}C`
+
+    default:
+      return SELECTORS_FORMAT[selector].unitSymbol
+  }
+}
 
 @connect(
   state => ({
@@ -42,6 +53,10 @@ class Graph extends Component {
     )
   }
 
+  _formatX = val => getHour(val)
+
+  _formatY = (...args) => formatSelectors(...args).value
+
   render () {
     const {
       dataKeys,
@@ -53,21 +68,21 @@ class Graph extends Component {
     if (Object.keys(dataKeys).length > 0 && !error) {
       const weatherData = Object.values(this.props.weatherData)
       return (
-        <ResponsiveContainer width='98%' height={600} >
+        <ResponsiveContainer width='98%' height={600}>
           <LineChart
             data={weatherData}
-            margin={{top: 50, right: 50, left: 0, bottom: 5}}>
+            margin={{top: 60, right: 10, left: -10, bottom: 5}}>
             <XAxis
               dataKey='time'
               scale='time'
               domain={[ 'dataMin', 'dataMax' ]}
               type='number'
-              tickFormatter={formatX} />
+              tickFormatter={this._formatX} />
             <YAxis
-              label="Height"
+              label={getSymbol(selector, unit)}
               padding={{ bottom: 20 }}
               domain={[ 'dataMin', 'dataMax' ]}
-              tickFormatter={val => formatY(val, selector, unit)} />
+              tickFormatter={val => this._formatY(val, selector, unit)} />
             <CartesianGrid
               strokeDasharray='3 3' />
             <Tooltip

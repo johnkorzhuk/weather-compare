@@ -1,4 +1,4 @@
-import randomColor from 'randomcolor'
+import getColor from './../../helpers/colors'
 import weatherService from './../../services/weather'
 import geocodeService from './../../services/geocode'
 
@@ -21,7 +21,7 @@ export const TOGGLE_UNITS = 'weather/TOGGLE_UNITS'
 export const UPDATE_GRAPH_SELECTOR = 'weather/UPDATE_GRAPH_SELECTOR'
 
 export const fetchWeather = query => async dispatch => {
-  const color = randomColor()
+  const color = getColor()
 
   dispatch({ type: FETCH_WEATHER, data: { color } })
 

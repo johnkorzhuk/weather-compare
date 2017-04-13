@@ -31,8 +31,9 @@ a {
 }
 
 .recharts-responsive-container {
-  margin-bottom: 400px;
+  margin-bottom: 40px;
   transform: translateX(1%);
+  overflow: hidden;
 }
 
 .recharts-text {
@@ -42,11 +43,15 @@ a {
 
 .recharts-legend-wrapper {
   padding-left: 68px;
-  padding-bottom: 20px;
+  padding-bottom: 60px;
 }
 
 .recharts-legend-item {
   font-size: 1.6rem;
+}
+
+.recharts-cartesian-axis-label {
+  transform: translateY(-10px);
 }
 
 .recharts-cartesian-grid-vertical {

@@ -63,7 +63,6 @@
     "postcss-cssnext": "^2.10.0",
     "postcss-smart-import": "^0.6.11",
     "precss": "^1.4.0",
-    "randomcolor": "^0.4.4",
     "react": "^15.5.3",
     "react-dom": "^15.5.3",
     "react-icons": "^2.2.3",

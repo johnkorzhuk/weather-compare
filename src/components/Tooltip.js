@@ -28,7 +28,7 @@ const ToolTipDataContainer = styled.div`
 `
 
 const ToolTipDataName = styled.div`
-  width: 120px;
+  width: 100px;
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
@@ -36,7 +36,7 @@ const ToolTipDataName = styled.div`
 `
 
 const ToolTipDataValue = styled.div`
-  width: 45px;
+  width: 65px;
   float: right;
   display: inline-block;
   overflow: hidden;
