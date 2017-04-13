@@ -56,7 +56,6 @@ const CustomTooltip = ({
       payload
         .sort((a, b) => b.value - a.value)
         .map(({ name, value }) =>
-          value &&
           <ToolTipDataContainer key={name}>
             <ToolTipDataName>{name}</ToolTipDataName>
             <ToolTipDataValue>{formatSelectors(value, selector, unit, true)}</ToolTipDataValue>
