@@ -10,10 +10,14 @@ const IconWrap = styled.div`
   cursor: pointer;
   top: 29px;
   position: fixed;
-  right: 40px;
+  right: 30px;
   z-index: 10;
   transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'});
   transition: transform 100ms linear;
+
+  @media only screen and (max-width: 420px) {
+    right: 15px;
+  }
 `
 
 const SettingsIcon = ({ sidebar, toggleSideBar }) => (

@@ -11,7 +11,7 @@ import { formatSelectors } from './../../helpers/units'
 
 const formatX = val => getHour(val)
 
-const formatY = (...args) => formatSelectors(...args, true)
+const formatY = (...args) => formatSelectors(...args)
 
 @connect(
   state => ({
@@ -53,7 +53,7 @@ class Graph extends Component {
     if (Object.keys(dataKeys).length > 0 && !error) {
       const weatherData = Object.values(this.props.weatherData)
       return (
-        <ResponsiveContainer width='102%' height={600} >
+        <ResponsiveContainer width='98%' height={600} >
           <LineChart
             data={weatherData}
             margin={{top: 50, right: 50, left: 0, bottom: 5}}>
@@ -64,6 +64,7 @@ class Graph extends Component {
               type='number'
               tickFormatter={formatX} />
             <YAxis
+              label="Height"
               padding={{ bottom: 20 }}
               domain={[ 'dataMin', 'dataMax' ]}
               tickFormatter={val => formatY(val, selector, unit)} />

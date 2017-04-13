@@ -31,8 +31,8 @@ a {
 }
 
 .recharts-responsive-container {
-  margin-left: -10px;
-  margin-bottom: 50px;
+  margin-bottom: 400px;
+  transform: translateX(1%);
 }
 
 .recharts-text {
@@ -41,10 +41,8 @@ a {
 }
 
 .recharts-legend-wrapper {
-  width: 100vw !important;
+  padding-left: 68px;
   padding-bottom: 20px;
-  display: flex;
-  justify-content: center;
 }
 
 .recharts-legend-item {
