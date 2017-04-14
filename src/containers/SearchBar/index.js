@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { mix, transparentize } from 'polished'
+import LocationIcon from 'react-icons/lib/fa/location-arrow'
 
-import { fetchWeather } from './../../store/weather/actions'
+import { fetchWeather, getUserLoc } from './../../store/weather/actions'
 import { getLegendKeys } from './../../store/weather/selectors'
 
 import { Container } from './../../components/index'
@@ -11,8 +12,8 @@ import { Container } from './../../components/index'
 const Wrapper = styled.div`
   display: flex;
   width: 70%;
-  margin: 0 auto;
-  align-items: flex-end;
+  margin: 25px auto;
+  align-items: center;
   
   @media only screen and (max-width: 570px) {
     width: 80%;
@@ -25,7 +26,6 @@ const Wrapper = styled.div`
 `
 
 const FormWrapper = styled.form`
-  margin-top: 25px;
   display: flex;
   flex-grow: 10;
   justify-content: center;
@@ -54,7 +54,7 @@ const Button = styled.button`
 `
 
 const Input = styled.input`
-  flex-grow: 10;
+  flex-grow: 20;
   padding: 0 10px;
   display: block;
   border: 1px solid white;
@@ -79,6 +79,14 @@ const Input = styled.input`
   }
 `
 
+const IconWrap = styled.div`
+  width: 15px;
+  padding: 5px 20px 5px 5px;
+  flex-grow: 1;
+  cursor: pointer;
+  text-align: right;
+`
+
 const initState = {
   input: ''
 }
@@ -88,7 +96,7 @@ const initState = {
     color: state.weather.currColor,
     dataKeys: getLegendKeys(state)
   }),
-  { fetchWeather }
+  { fetchWeather, getUserLoc }
 )
 class SearchBar extends Component {
   state = initState
@@ -110,7 +118,8 @@ class SearchBar extends Component {
       transitionDuration,
       color,
       bgc,
-      dataKeys
+      dataKeys,
+      getUserLoc
     } = this.props
 
     if (dataKeys.length <= 0 && this.input) this.input.focus()
@@ -118,6 +127,9 @@ class SearchBar extends Component {
     return (
       <Container>
         <Wrapper>
+          <IconWrap onClick={getUserLoc} >
+            <LocationIcon size={20} color='white' />
+          </IconWrap>
           <FormWrapper onSubmit={this._handleFormSubmit}>
             <Input
               type='text'
