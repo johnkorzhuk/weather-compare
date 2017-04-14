@@ -71,7 +71,7 @@ export const getUserLoc = () => async dispatch => {
   dispatch({ type: FETCH_WEATHER, data: { color } })
 
   try {
-    const { data: { latitude, longitude } } = await geolocation()
+    const { coords: { latitude, longitude } } = await geolocation()
     const forecast = await weatherService.getWeatherData(latitude, longitude)
     const loc = 'update this in getUserLoc action'
     const data = {
