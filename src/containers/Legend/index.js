@@ -27,11 +27,13 @@ const LegendContainer = styled.li`
 
 const LegendContent = styled.div`
   cursor: pointer;
+  text-transform: uppercase;
+  font-size: 1.4rem;
 `
 
 const LegendDash = styled.span`
   position: absolute;
-  top: 16px;
+  top: 14px;
   left: -6px;
   color: ${props => props.color};
   opacity: ${props => props.hover ? 0 : 1};
@@ -45,7 +47,7 @@ const LegendDash = styled.span`
 const X = styled.div`
   padding: 5px 0 5px 5px; 
   position: absolute;
-  top: ${props => props.hover ? '14px' : '34px'};
+  top: ${props => props.hover ? '11px' : '34px'};
   left: -11px;
   cursor: pointer;
   font-size: 1.2rem;
@@ -60,23 +62,24 @@ const X = styled.div`
   }
 `
 
-const CustomLegend = ({
-  updateCurrLoc,
-  deleteLoc,
-  payload
-}) => (
+const CustomLegend = (
+  {
+    updateCurrLoc,
+    deleteLoc,
+    payload
+  }
+) => (
   <TransitionGroup component='ul'>
-    {
-      payload.map(({ color, value }) => (
-        <CustomLegendItem
-          animateOutDuration={100}
-          deleteLoc={deleteLoc}
-          updateCurrLoc={updateCurrLoc}
-          key={`item-${value}`}
-          color={color}
-          value={value} />
-      ))
-    }
+    {payload.map(({ color, value }) => (
+      <CustomLegendItem
+        animateOutDuration={100}
+        deleteLoc={deleteLoc}
+        updateCurrLoc={updateCurrLoc}
+        key={`item-${value}`}
+        color={color}
+        value={value}
+      />
+    ))}
   </TransitionGroup>
 )
 
@@ -84,7 +87,7 @@ class CustomLegendItem extends Component {
   state = {
     hovered: false,
     unmounting: false
-  }
+  };
 
   componentWillLeave (callback) {
     setTimeout(callback, this.props.animateOutDuration)
@@ -92,12 +95,12 @@ class CustomLegendItem extends Component {
 
   _handleLocToggle = loc => {
     this.props.updateCurrLoc(loc)
-  }
+  };
 
   _handleLocDelete = loc => {
     this.setState({ unmounting: true })
     this.props.deleteLoc(loc)
-  }
+  };
 
   render () {
     const {
@@ -119,26 +122,24 @@ class CustomLegendItem extends Component {
         unmounting={unmounting}
         id={value}
         onMouseEnter={e => this.setState({ hovered: true })}
-        onMouseLeave={e => this.setState({ hovered: false })}>
-        <LegendContent
-          onClick={() => this._handleLocToggle(value)}>
-          <LegendDash
-            hover={hovered}
-            color={color}>
-            &#9679;
+        onMouseLeave={e => this.setState({ hovered: false })}
+      >
+        <LegendContent onClick={() => this._handleLocToggle(value)}>
+          <LegendDash hover={hovered} color={color}>
+            ●
           </LegendDash>
-          { value }
+          {value}
         </LegendContent>
         <X
           color={color}
           hover={hovered}
-          onClick={() => this._handleLocDelete(value)}>&#10005;</X>
+          onClick={() => this._handleLocDelete(value)}
+        >
+          ✕
+        </X>
       </LegendContainer>
     )
   }
 }
 
-export default connect(
-  undefined,
-  { updateCurrLoc, deleteLoc }
-)(CustomLegend)
+export default connect(undefined, { updateCurrLoc, deleteLoc })(CustomLegend)

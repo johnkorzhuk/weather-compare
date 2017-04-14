@@ -99,11 +99,11 @@ const initState = {
   { fetchWeather, getUserLoc }
 )
 class SearchBar extends Component {
-  state = initState
+  state = initState;
 
   _handleCange = e => {
     this.setState({ input: e.target.value })
-  }
+  };
 
   _handleFormSubmit = e => {
     e.preventDefault()
@@ -111,7 +111,7 @@ class SearchBar extends Component {
     this.props.fetchWeather(this.state.input)
 
     this.setState(initState)
-  }
+  };
 
   render () {
     const {
@@ -127,7 +127,7 @@ class SearchBar extends Component {
     return (
       <Container>
         <Wrapper>
-          <IconWrap onClick={getUserLoc} >
+          <IconWrap onClick={getUserLoc}>
             <LocationIcon size={20} color='white' />
           </IconWrap>
           <FormWrapper onSubmit={this._handleFormSubmit}>
@@ -141,10 +141,11 @@ class SearchBar extends Component {
               bgc={bgc}
               autoFocus
               required
-              innerRef={el => { this.input = el }} />
-            <Button
-              type='submit'
-              color={color}>
+              innerRef={el => {
+                this.input = el
+              }}
+            />
+            <Button type='submit' color={color}>
               find
             </Button>
           </FormWrapper>

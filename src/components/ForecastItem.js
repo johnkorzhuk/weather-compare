@@ -7,7 +7,7 @@ const ForecastItemContainer = styled.div`
   align-items: center;
   justify-content: center;
   float: left;
-  cursor: pointer;
+  cursor: ${props => props.novalue ? 'default' : 'pointer'};
   margin-top: ${props => props.left ? 0 : '35px'};
 
   @media only screen and (max-width: 730px) {
@@ -32,22 +32,36 @@ const ItemSubHeader = styled.div`
   margin-top: 4px;
   text-align: ${props => props.left ? 'left' : 'center'};
   font-size: 1.6rem;
+  text-transform: lowercase;
 `
 
-const ForecastItem = ({
-  value,
-  name,
-  left,
-  _handleClick
-}) => (
-  <ForecastItemContainer
-    onClick={_handleClick}
-    left={left}>
-    <ItemWrapper>
-      <ItemSubHeaderContent left={left}>{value}</ItemSubHeaderContent>
-      <ItemSubHeader left={left}>{name}</ItemSubHeader>
-    </ItemWrapper>
-  </ForecastItemContainer>
-)
+const ForecastItem = (
+  {
+    value,
+    name,
+    left,
+    _handleClick
+  }
+) => {
+  if (value) {
+    return (
+      <ForecastItemContainer onClick={_handleClick} left={left}>
+        <ItemWrapper>
+          <ItemSubHeaderContent left={left}>{value}</ItemSubHeaderContent>
+          <ItemSubHeader left={left}>{name}</ItemSubHeader>
+        </ItemWrapper>
+      </ForecastItemContainer>
+    )
+  } else {
+    return (
+      <ForecastItemContainer left={left} novalue>
+        <ItemWrapper>
+          <ItemSubHeaderContent left={left}>{'--'}</ItemSubHeaderContent>
+          <ItemSubHeader left={left}>{name}</ItemSubHeader>
+        </ItemWrapper>
+      </ForecastItemContainer>
+    )
+  }
+}
 
 export default ForecastItem

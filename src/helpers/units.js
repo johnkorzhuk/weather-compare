@@ -65,49 +65,50 @@ export const SELECTORS_FORMAT = {
 }
 
 export const formatSelectors = (value, selectorName, unit, appendSymbol) => {
+  if (typeof value === 'undefined') return
   switch (SELECTORS_FORMAT[selectorName].units) {
     case 'PERCENT':
       return appendSymbol
         ? `${Math.round(value * 100)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-        : ({
+        : {
           value: parseFloat(Math.round(value * 100)),
           symbol: SELECTORS_FORMAT[selectorName].unitSymbol
-        })
+        }
 
     case 'TEMP':
       const temp = unit === UNITS_F_MPH ? value : FtoC(value)
       return appendSymbol
         ? `${temp.toFixed(1)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-        : ({
+        : {
           value: parseFloat(temp.toFixed(1)),
           symbol: SELECTORS_FORMAT[selectorName].unitSymbol
-        })
+        }
 
     case 'MB':
     case 'DU':
       return appendSymbol
         ? `${value.toFixed(1)} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-        : ({
+        : {
           value: parseFloat(value.toFixed(1)),
           symbol: SELECTORS_FORMAT[selectorName].unitSymbol
-        })
+        }
 
     case 'DISTANCE':
       const distance = unit === UNITS_F_MPH ? value : MtoKM(value)
       return appendSymbol
         ? `${distance.toFixed(2)} ${SELECTORS_FORMAT[selectorName].unitSymbol[unit]}`
-        : ({
+        : {
           value: parseFloat(distance.toFixed(2)),
           symbol: SELECTORS_FORMAT[selectorName].unitSymbol[unit]
-        })
+        }
 
     case 'DEGREE':
       return appendSymbol
         ? `${value} ${SELECTORS_FORMAT[selectorName].unitSymbol}`
-        : ({
+        : {
           value: parseFloat(value),
           symbol: SELECTORS_FORMAT[selectorName].unitSymbol
-        })
+        }
 
     default:
       console.error('Wrong type of unit passed to formatSelectors')

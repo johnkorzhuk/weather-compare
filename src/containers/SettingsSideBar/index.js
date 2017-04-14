@@ -2,13 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { getSettingsSelectors, getSelectedUnit } from './../../store/weather/selectors'
-import { toggleSelector, toggleUnits } from './../../store/weather/actions'
+import {
+  getSettingsSelectors,
+  getSelectedUnit
+} from './../../store/weather/selectors'
+import { toggleSelector, toggleUnits } from './../../store/persisted/actions'
 import { Checkbox } from './../../components/index'
 
-// constants
-const UNITS_F_MPH = 'F,mph'
-const UNITS_C_KMPH = 'C,kmph'
+import { UNITS_F_MPH, UNITS_C_KMPH } from './../../helpers/units'
 
 const SideBarContainer = styled.div`
   width: 280px;
@@ -64,43 +65,47 @@ const WeatherDataControlsWrapper = styled.div`
   margin: 35px 0 0 25px;
 `
 
-
-const SettingsSideBar = ({
-  selectors,
-  unit,
-  sidebar,
-  toggleSideBar,
-  toggleSelector,
-  toggleUnits
-}) => (
+const SettingsSideBar = (
+  {
+    selectors,
+    unit,
+    sidebar,
+    toggleSideBar,
+    toggleSelector,
+    toggleUnits
+  }
+) => (
   <SideBarContainer sidebar={sidebar}>
     <SettingsHeader>Settings</SettingsHeader>
     <ButtonsWrapper>
       <Button
         onClick={() => toggleUnits(UNITS_F_MPH)}
-        focused={unit === UNITS_F_MPH}>
+        focused={unit === UNITS_F_MPH}
+      >
         ˚F, mph
       </Button>
       <Button
         onClick={() => toggleUnits(UNITS_C_KMPH)}
         focused={unit === UNITS_C_KMPH}
-        left>
+        left
+      >
         ˚C, km/h
       </Button>
     </ButtonsWrapper>
     <WeatherDataControlsWrapper>
-      <WeatherDataControlsHeader>weather data controls</WeatherDataControlsHeader>
-      {
-        selectors.map(({ selector, readable, selected }) => (
-          <Checkbox
-            key={selector}
-            selector={selector}
-            checked={selected}
-            _handleChange={() => toggleSelector(selector)}>
-            {readable}
-          </Checkbox>
-        ))
-      }
+      <WeatherDataControlsHeader>
+        weather data controls
+      </WeatherDataControlsHeader>
+      {selectors.map(({ selector, readable, selected }) => (
+        <Checkbox
+          key={selector}
+          selector={selector}
+          checked={selected}
+          _handleChange={() => toggleSelector(selector)}
+        >
+          {readable}
+        </Checkbox>
+      ))}
     </WeatherDataControlsWrapper>
   </SideBarContainer>
 )
