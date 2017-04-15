@@ -6,6 +6,12 @@ import { mix } from 'polished'
 import { SearchBar, WeatherData, Notification, Graph } from './../index'
 import { Spinner } from './../../components/index'
 
+import {
+  SIDEBAR_TRANSITION_DURATION,
+  SIDEBAR_WIDTH,
+  SIDEBAR_EASING_FN
+} from './../SettingsSideBar/constants'
+
 const MainWrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -13,7 +19,7 @@ const MainWrapper = styled.section`
   left: 0;
   z-index: 9;
   display: inline-block;
-  transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'})
+  transform: translateX(${({ sidebar }) => sidebar ? `-${SIDEBAR_WIDTH}px` : '0'})
   background: linear-gradient(
     180deg,
     ${props => props.color ? `${mix(0.30, props.color, props.bgc)}` : props.bgc} 5%,
@@ -21,7 +27,7 @@ const MainWrapper = styled.section`
     ${props => props.bgc}
   );
 
-  transition: transform 200ms ease-in-out;
+  transition: transform ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN};
 `
 // Hack to get gradient transition working
 const MainWrapperHelper = styled.div`

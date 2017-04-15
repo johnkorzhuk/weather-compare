@@ -48,26 +48,27 @@ module.exports = {
   devtool: 'inline-source-map',
 
   module: {
-    rules: [{
-      test: /\.jsx?$/,
-      use: [
-        'babel-loader'
-      ],
-      exclude: /node_modules/
-    }, {
-      test: /\.css$/,
-      use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            import: false
-          }
-        },
-        'postcss-loader'
-      ]
-    }]
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: ['babel-loader'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              import: false
+            }
+          },
+          'postcss-loader'
+        ]
+      }
+    ]
   },
 
   plugins: [

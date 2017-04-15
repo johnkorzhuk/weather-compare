@@ -58,7 +58,7 @@ const X = styled.div`
   
   @media only screen and (max-width: 700px) {
     opacity: 1;
-    top: 9px;
+    top: 6px;
   }
 `
 

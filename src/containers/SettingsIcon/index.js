@@ -1,10 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Cog from 'react-icons/lib/fa/cog'
-import X from 'react-icons/lib/md/close'
 import styled from 'styled-components'
+import X from 'react-icons/lib/md/close'
+import Cog from 'react-icons/lib/fa/cog'
 
 import { toggleSideBar } from './../../store/weather/actions'
+
+import { SpinerTransition } from './../../higherOrderComponents/index'
+
+import {
+  SIDEBAR_TRANSITION_DURATION,
+  SIDEBAR_WIDTH,
+  SIDEBAR_EASING_FN
+} from './../SettingsSideBar/constants'
 
 const IconWrap = styled.div`
   cursor: pointer;
@@ -12,8 +20,8 @@ const IconWrap = styled.div`
   position: fixed;
   right: 30px;
   z-index: 10;
-  transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'});
-  transition: transform 200ms ease-in-out;
+  transform: translateX(${({ sidebar }) => sidebar ? `-${SIDEBAR_WIDTH}px` : '0'});
+  transition: transform ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN};
 
   @media only screen and (max-width: 420px) {
     right: 15px;
@@ -22,8 +30,26 @@ const IconWrap = styled.div`
 
 const SettingsIcon = ({ sidebar, toggleSideBar }) => (
   <IconWrap sidebar={sidebar} onClick={() => toggleSideBar()}>
-    {!sidebar && <Cog size={25} color='white' />}
-    {sidebar && <X size={30} color='white' />}
+    <SpinerTransition
+      animateDuration={350}
+      sidebar={!sidebar}
+      initOpacity={1}
+      initRotat={sidebar ? '0deg' : '180deg'}
+      rotateAmnt={sidebar ? '180deg' : '0deg'}
+    >
+      <Cog size={25} color='white' />
+    </SpinerTransition>
+    <SpinerTransition
+      style={{ right: -28, top: -2 }}
+      animateDuration={350}
+      sidebar={sidebar}
+      initOpacity={0}
+      initRotat={sidebar ? '0deg' : '360deg'}
+      rotateAmnt={sidebar ? '360deg' : '0deg'}
+    >
+      <X size={30} color='white' />
+    </SpinerTransition>
+
   </IconWrap>
 )
 

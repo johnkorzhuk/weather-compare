@@ -16,10 +16,7 @@ const VENDOR_LIBS = [
 
 module.exports = {
   entry: {
-    bundle: [
-      'babel-polyfill',
-      './src/index.js'
-    ],
+    bundle: ['babel-polyfill', './src/index.js'],
     vendor: VENDOR_LIBS
   },
 
@@ -33,26 +30,29 @@ module.exports = {
   devtool: 'source-map',
 
   module: {
-    rules: [{
-      test: /\.jsx?$/,
-      use: 'babel-loader',
-      exclude: /node_modules/
-    }, {
-      test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              import: false
-            }
-          },
-          'postcss-loader'
-        ]
-      })
-    }]
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+                import: false
+              }
+            },
+            'postcss-loader'
+          ]
+        })
+      }
+    ]
   },
 
   plugins: [

@@ -10,9 +10,14 @@ import { toggleSelector, toggleUnits } from './../../store/persisted/actions'
 import { Checkbox } from './../../components/index'
 
 import { UNITS_F_MPH, UNITS_C_KMPH } from './../../helpers/units'
+import {
+  SIDEBAR_TRANSITION_DURATION,
+  SIDEBAR_WIDTH,
+  SIDEBAR_EASING_FN
+} from './constants'
 
 const SideBarContainer = styled.div`
-  width: 280px;
+  width: ${SIDEBAR_WIDTH}px;
   transform: translateX(${({ sidebar }) => sidebar ? 0 : '100%'})
   background-color: #2c2c2c;
   color: white;
@@ -21,7 +26,7 @@ const SideBarContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  transition: transform 200ms ease-in-out;
+  transition: transform ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN};
 `
 
 const SettingsHeader = styled.h2`

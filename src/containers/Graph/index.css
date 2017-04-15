@@ -23,13 +23,13 @@
 
 .recharts-cartesian-grid-vertical {
   line:not(:last-child) {
-    display: none;
+    display: none !important;
   }
 }
 
 .recharts-x-axis {
   .recharts-cartesian-axis-tick:nth-child(odd) > text {
-    display: none;
+    display: none !important;
   }
 
   .recharts-text {
