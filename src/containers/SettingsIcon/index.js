@@ -18,13 +18,13 @@ const IconWrap = styled.div`
   cursor: pointer;
   top: 29px;
   position: fixed;
-  right: 30px;
+  right: 50px;
   z-index: 10;
   transform: translateX(${({ sidebar }) => sidebar ? `-${SIDEBAR_WIDTH}px` : '0'});
   transition: transform ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN};
 
   @media only screen and (max-width: 420px) {
-    right: 15px;
+    right: 35px;
   }
 `
 
@@ -34,8 +34,8 @@ const SettingsIcon = ({ sidebar, toggleSideBar }) => (
       animateDuration={350}
       sidebar={!sidebar}
       initOpacity={1}
-      initRotat={sidebar ? '0deg' : '180deg'}
-      rotateAmnt={sidebar ? '180deg' : '0deg'}
+      initRotat={sidebar ? '0deg' : '90deg'}
+      rotateAmnt={sidebar ? '90deg' : '0deg'}
     >
       <Cog size={25} color='white' />
     </SpinerTransition>
@@ -44,8 +44,8 @@ const SettingsIcon = ({ sidebar, toggleSideBar }) => (
       animateDuration={350}
       sidebar={sidebar}
       initOpacity={0}
-      initRotat={sidebar ? '0deg' : '360deg'}
-      rotateAmnt={sidebar ? '360deg' : '0deg'}
+      initRotat={sidebar ? '0deg' : '180deg'}
+      rotateAmnt={sidebar ? '180deg' : '0deg'}
     >
       <X size={30} color='white' />
     </SpinerTransition>

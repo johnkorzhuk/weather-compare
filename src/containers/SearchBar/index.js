@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   width: 70%;
   margin: 25px auto;
   align-items: center;
+  position: relative;
   
   @media only screen and (max-width: 570px) {
     width: 80%;
@@ -31,6 +32,10 @@ const FormWrapper = styled.form`
   justify-content: center;
   font-size: 1.6rem;
   line-height: 3.2rem;
+
+  @media only screen and (max-width: 570px) {
+    margin-left: 20px;
+  }
 `
 
 const Button = styled.button`
@@ -80,11 +85,14 @@ const Input = styled.input`
 `
 
 const IconWrap = styled.div`
-  width: 15px;
-  padding: 5px 20px 5px 5px;
+  position: absolute;
   flex-grow: 1;
   cursor: pointer;
-  text-align: right;
+  left: -35px;
+
+  @media only screen and (max-width: 570px) {
+    left: -11px;
+  }
 `
 
 const initState = {
