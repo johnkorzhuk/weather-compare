@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { mix, transparentize } from 'polished'
 import LocationIcon from 'react-icons/lib/fa/location-arrow'
 
-import { fetchWeather, getUserLoc } from './../../store/weather/actions'
+import { fetchWeather, updateCurrLoc } from './../../store/weather/actions'
+import { getUserLoc } from './../../store/persisted/actions'
 import { getLegendKeys } from './../../store/weather/selectors'
 
 import { Container } from './../../components/index'
@@ -102,9 +103,11 @@ const initState = {
 @connect(
   state => ({
     color: state.weather.currColor,
-    dataKeys: getLegendKeys(state)
+    dataKeys: getLegendKeys(state),
+    currLoc: state.weather.currLoc,
+    userLoc: state.persisted.userLoc
   }),
-  { fetchWeather, getUserLoc }
+  { fetchWeather, getUserLoc, updateCurrLoc }
 )
 class SearchBar extends Component {
   state = initState;
@@ -121,13 +124,35 @@ class SearchBar extends Component {
     this.setState(initState)
   };
 
+  _handleGetUserLoc = () => {
+    const {
+      getUserLoc,
+      dataKeys,
+      currLoc,
+      updateCurrLoc,
+      userLoc,
+      fetchWeather
+    } = this.props
+
+    if (
+      Object.keys(dataKeys).includes('current location') &&
+      currLoc !== 'current location'
+    ) {
+      updateCurrLoc('current location')
+    } else if (userLoc) {
+      const { latitude, longitude } = userLoc
+      fetchWeather(latitude, longitude)
+    } else {
+      getUserLoc()
+    }
+  };
+
   render () {
     const {
       transitionDuration,
       color,
       bgc,
-      dataKeys,
-      getUserLoc
+      dataKeys
     } = this.props
 
     if (dataKeys.length <= 0 && this.input) this.input.focus()
@@ -135,7 +160,7 @@ class SearchBar extends Component {
     return (
       <Container>
         <Wrapper>
-          <IconWrap onClick={getUserLoc}>
+          <IconWrap onClick={this._handleGetUserLoc}>
             <LocationIcon size={20} color='white' />
           </IconWrap>
           <FormWrapper onSubmit={this._handleFormSubmit}>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import TransitionGroup from 'react-transition-group/TransitionGroup'
 import styled from 'styled-components'
 import {
   LineChart,

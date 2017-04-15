@@ -1,4 +1,4 @@
-import { TOGGLE_SELECTOR, TOGGLE_UNITS } from './actions'
+import { TOGGLE_SELECTOR, TOGGLE_UNITS, UPDATE_USER_LOC } from './actions'
 
 import { UNITS_F_MPH, UNITS_C_KMPH } from './../../helpers/units'
 
@@ -18,6 +18,10 @@ const INITIAL_STATE = {
   units: {
     [UNITS_F_MPH]: true,
     [UNITS_C_KMPH]: false
+  },
+  userLoc: {
+    latitude: null,
+    longitude: null
   }
 }
 
@@ -39,6 +43,16 @@ export default (state = INITIAL_STATE, action) => {
           ...state.units,
           [UNITS_F_MPH]: !state.units[UNITS_F_MPH],
           [UNITS_C_KMPH]: !state.units[UNITS_C_KMPH]
+        }
+      }
+
+    case UPDATE_USER_LOC:
+      return {
+        ...state,
+        userLoc: {
+          ...state.userLoc,
+          latitude: action.data.latitude,
+          longitude: action.data.longitude
         }
       }
 

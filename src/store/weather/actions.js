@@ -4,8 +4,6 @@ import geocodeService from './../../services/geocode'
 
 import { getSelectedUnit } from './../../store/weather/selectors'
 
-import geolocation from './../../helpers/geolocation'
-
 // actions
 export const FETCH_WEATHER = 'weather/FETCH_WEATHER'
 export const FETCH_WEATHER_SUCCESS = 'weather/FETCH_WEATHER_SUCCESS'
@@ -23,18 +21,32 @@ export const TOGGLE_UNITS = 'weather/TOGGLE_UNITS'
 
 export const UPDATE_GRAPH_SELECTOR = 'weather/UPDATE_GRAPH_SELECTOR'
 
-export const fetchWeather = query =>
+export const fetchWeather = (...args) =>
   async dispatch => {
     const color = getColor()
 
     dispatch({ type: FETCH_WEATHER, data: { color } })
 
     try {
-      const { geometry, formatted_address } = await geocodeService.getLatLng(
-        query
-      )
-      const { lat, lng } = geometry.location
-      const loc = formatted_address
+      let lat
+      let lng
+      let loc
+      if (args.length === 1) {
+        const [query] = args
+        const { geometry, formatted_address } = await geocodeService.getLatLng(
+          query
+        )
+        loc = formatted_address
+        lat = geometry.location.lat
+        lng = geometry.location.lng
+      } else {
+        const [latitude, longitude] = args
+        lat = latitude
+        lng = longitude
+        loc = 'current location'
+      }
+      console.log(lat, lng)
+
       const forecast = await weatherService.getWeatherData(lat, lng)
       const data = {
         [loc]: {
@@ -58,7 +70,6 @@ export const fetchWeather = query =>
 export const updateCurrLoc = loc =>
   (dispatch, getState) => {
     const { weather: { currLoc } } = getState()
-
     return currLoc === loc
       ? null
       : dispatch({ type: UPDATE_CURR_LOC, data: { loc } })
@@ -67,35 +78,6 @@ export const updateCurrLoc = loc =>
 export const deleteLoc = loc =>
   dispatch => {
     return dispatch({ type: DELETE_LOC, data: { loc } })
-  }
-
-export const getUserLoc = () =>
-  async dispatch => {
-    const color = getColor()
-
-    dispatch({ type: FETCH_WEATHER, data: { color } })
-
-    try {
-      const { coords: { latitude, longitude } } = await geolocation()
-      const forecast = await weatherService.getWeatherData(latitude, longitude)
-      const loc = 'current location'
-      const data = {
-        [loc]: {
-          ...forecast.data,
-          loc,
-          color,
-          legendKey: {
-            [loc]: color
-          }
-        }
-      }
-
-      return dispatch({ type: FETCH_WEATHER_SUCCESS, data })
-    } catch (e) {
-      dispatch({ type: FETCH_WEATHER_ERROR, e })
-      setTimeout(() => dispatch({ type: DISMISS_NOTIFICATION }), 5000)
-      console.error(e)
-    }
   }
 
 export const toggleSideBar = () =>
