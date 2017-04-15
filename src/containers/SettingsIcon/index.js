@@ -13,7 +13,7 @@ const IconWrap = styled.div`
   right: 30px;
   z-index: 10;
   transform: translateX(${({ sidebar }) => sidebar ? '-280px' : '0'});
-  transition: transform 100ms linear;
+  transition: transform 200ms ease-in-out;
 
   @media only screen and (max-width: 420px) {
     right: 15px;
@@ -21,9 +21,7 @@ const IconWrap = styled.div`
 `
 
 const SettingsIcon = ({ sidebar, toggleSideBar }) => (
-  <IconWrap
-    sidebar={sidebar}
-    onClick={() => toggleSideBar()}>
+  <IconWrap sidebar={sidebar} onClick={() => toggleSideBar()}>
     {!sidebar && <Cog size={25} color='white' />}
     {sidebar && <X size={30} color='white' />}
   </IconWrap>

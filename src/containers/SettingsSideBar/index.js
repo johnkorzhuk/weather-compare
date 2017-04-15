@@ -21,7 +21,7 @@ const SideBarContainer = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  transition: transform 100ms linear;
+  transition: transform 200ms ease-in-out;
 `
 
 const SettingsHeader = styled.h2`

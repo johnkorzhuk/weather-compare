@@ -21,7 +21,7 @@ const MainWrapper = styled.section`
     ${props => props.bgc}
   );
 
-  transition: transform 100ms linear;
+  transition: transform 200ms ease-in-out;
 `
 // Hack to get gradient transition working
 const MainWrapperHelper = styled.div`
@@ -47,15 +47,13 @@ const initialState = {
   opacity: 0
 }
 
-@connect(
-  state => ({
-    color: state.weather.currColor,
-    loading: state.weather.loading,
-    sidebar: state.weather.sidebar
-  })
-)
+@connect(state => ({
+  color: state.weather.currColor,
+  loading: state.weather.loading,
+  sidebar: state.weather.sidebar
+}))
 class WeatherSection extends Component {
-  state = initialState
+  state = initialState;
 
   componentWillReceiveProps (nextProps) {
     if (this.props.color !== nextProps.color) {
@@ -64,10 +62,14 @@ class WeatherSection extends Component {
         currColor: this.props.color,
         opacity: 1
       })
-      setTimeout(() => this.setState({
-        opacity: 0,
-        currColor: this.state.nextColor
-      }), this.props.transitionDuration)
+      setTimeout(
+        () =>
+          this.setState({
+            opacity: 0,
+            currColor: this.state.nextColor
+          }),
+        this.props.transitionDuration
+      )
     }
   }
 
@@ -86,19 +88,15 @@ class WeatherSection extends Component {
     } = this.props
 
     return (
-      <MainWrapper
-        sidebar={sidebar}
-        bgc={bgc}
-        color={currColor}>
+      <MainWrapper sidebar={sidebar} bgc={bgc} color={currColor}>
         <MainWrapperHelper
           bgc={bgc}
           color={nextColor}
           opacity={opacity}
-          duration={transitionDuration} />
-        <SearchBar
-          bgc={bgc}
-          transitionDuration={transitionDuration} />
-        { loading && <Spinner /> }
+          duration={transitionDuration}
+        />
+        <SearchBar bgc={bgc} transitionDuration={transitionDuration} />
+        {loading && <Spinner />}
         <Notification />
         <WeatherData transitionDuration={500} />
         <Graph />
