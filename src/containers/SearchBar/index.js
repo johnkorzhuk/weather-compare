@@ -104,12 +104,17 @@ const initState = {
   state => ({
     color: state.weather.currColor,
     dataKeys: getLegendKeys(state),
-    currLoc: state.weather.currLoc
+    currLoc: state.weather.currLoc,
+    geoLocPermission: state.persisted.userHasGrantedGeoLocPermission
   }),
   { fetchWeather, getUserLoc, updateCurrLoc }
 )
 class SearchBar extends Component {
   state = initState;
+
+  componentDidMount () {
+    if (this.props.geoLocPermission) this.props.getUserLoc()
+  }
 
   _handleCange = e => {
     this.setState({ input: e.target.value })

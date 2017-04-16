@@ -19,7 +19,6 @@ export const UPDATE_GEOLOC_PERMISSION = 'persisted/UPDATE_GEOLOC_PERMISSION'
 
 export const toggleSelector = selector =>
   (dispatch, getState) => {
-    console.log(selector)
     const { persisted } = getState()
     const newState = {
       persisted: {
@@ -92,7 +91,19 @@ export const getUserLoc = () =>
       }
       saveState(newState)
     } catch (e) {
+      const { persisted } = state
       if (e.code === 1) {
+        const newState = {
+          persisted: {
+            ...persisted,
+            userHasGrantedGeoLocPermission: false
+          }
+        }
+        saveState(newState)
+        dispatch({
+          type: UPDATE_GEOLOC_PERMISSION,
+          data: { userHasGrantedGeoLocPermission: false }
+        })
         dispatch({
           type: FETCH_WEATHER_ERROR,
           data: { error: e, message: `unable to retrieve your location` }
