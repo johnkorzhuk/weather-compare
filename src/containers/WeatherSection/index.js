@@ -38,7 +38,9 @@ const MainWrapperHelper = styled.div`
   width: 100%;
   height: 100vh;
   opacity: ${props => props.opacity};
-  transition: opacity ${props => props.duration}ms linear;
+  transform: translateX(${({ sidebar }) => sidebar ? `-${SIDEBAR_WIDTH}px` : '0'})
+  transition: opacity ${props => props.duration}ms linear,
+              transform ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN};
   background: linear-gradient(
     180deg,
     ${props => props.color ? `${mix(0.30, props.color, props.bgc)}` : props.bgc} 10%,

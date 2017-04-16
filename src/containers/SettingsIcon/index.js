@@ -41,11 +41,10 @@ const SettingsIcon = ({ sidebar, toggleSideBar }) => (
     </SpinerTransition>
     <SpinerTransition
       style={{ right: -28, top: -2 }}
-      animateDuration={350}
       sidebar={sidebar}
       initOpacity={0}
-      initRotat={sidebar ? '0deg' : '180deg'}
-      rotateAmnt={sidebar ? '180deg' : '0deg'}
+      initRotat={sidebar ? '0deg' : '270deg'}
+      rotateAmnt={sidebar ? '270deg' : '0deg'}
     >
       <X size={30} color='white' />
     </SpinerTransition>

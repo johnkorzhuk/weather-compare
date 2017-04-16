@@ -1,12 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import ErrIcon from 'react-icons/lib/md/error-outline'
 
-import {
-  FETCH_WEATHER_ERROR
-} from './../../store/weather/actions'
-
-import { ErrorIcon } from './../../components/index'
+import { FETCH_WEATHER_ERROR } from './../../store/weather/actions'
 
 const Container = styled.div`
   padding: 7px 15px 7px 25px;
@@ -21,7 +18,13 @@ const Notification = ({ notification, currColor }) => {
   if (notification) {
     switch (notification.type) {
       case FETCH_WEATHER_ERROR:
-        return <Container><ErrorIcon />{notification.message} </Container>
+        return (
+          <Container>
+            <ErrIcon size={30} color='#FF4949' style={{ marginRight: 10 }} />
+            {notification.message}
+            {' '}
+          </Container>
+        )
       default:
         return null
     }
@@ -29,9 +32,7 @@ const Notification = ({ notification, currColor }) => {
   return null
 }
 
-export default connect(
-  state => ({
-    notification: state.weather.notification,
-    currColor: state.weather.currColor
-  })
-)(Notification)
+export default connect(state => ({
+  notification: state.weather.notification,
+  currColor: state.weather.currColor
+}))(Notification)

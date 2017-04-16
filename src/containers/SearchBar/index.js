@@ -104,8 +104,7 @@ const initState = {
   state => ({
     color: state.weather.currColor,
     dataKeys: getLegendKeys(state),
-    currLoc: state.weather.currLoc,
-    userLoc: state.persisted.userLoc
+    currLoc: state.weather.currLoc
   }),
   { fetchWeather, getUserLoc, updateCurrLoc }
 )
@@ -129,9 +128,7 @@ class SearchBar extends Component {
       getUserLoc,
       dataKeys,
       currLoc,
-      updateCurrLoc,
-      userLoc,
-      fetchWeather
+      updateCurrLoc
     } = this.props
 
     if (
@@ -139,10 +136,7 @@ class SearchBar extends Component {
       currLoc !== 'current location'
     ) {
       updateCurrLoc('current location')
-    } else if (userLoc) {
-      const { latitude, longitude } = userLoc
-      fetchWeather(latitude, longitude)
-    } else {
+    } else if (currLoc !== 'current location') {
       getUserLoc()
     }
   };

@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-// transform: ${({ rotation }) => rotation ? `rotate(${rotation})` : 'rotate(0deg)'};
+
+import {
+  SIDEBAR_TRANSITION_DURATION,
+  SIDEBAR_EASING_FN
+} from './../../containers/SettingsSideBar/constants'
+
 const IconWrapper = styled.div`
   position: absolute;
   transform: ${({ rotation }) => `rotate(${rotation})`} ${({ opacity }) => opacity === 0 ? 'scale(0.8)' : 'scale(1)'};
   opacity: ${({ opacity }) => opacity};
 
-  transition: transform ${({ duration }) => `${duration}ms linear`},
-              opacity ${({ duration }) => `${duration}ms linear`};
+  transition: transform ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN},
+              opacity ${SIDEBAR_TRANSITION_DURATION}ms ${SIDEBAR_EASING_FN};
 `
 
 export default class SpinerTransition extends Component {
@@ -26,7 +31,7 @@ export default class SpinerTransition extends Component {
         () => {
           this.setState({ rotation: this.props.initRotat })
         },
-        this.props.animateDuration
+        SIDEBAR_TRANSITION_DURATION
       )
     }
   }
@@ -36,7 +41,6 @@ export default class SpinerTransition extends Component {
       <IconWrapper
         style={this.props.style}
         opacity={this.state.opacity}
-        duration={this.props.animateDuration}
         rotation={this.state.rotation}
       >
         {this.props.children}

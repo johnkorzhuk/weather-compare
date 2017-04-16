@@ -1,4 +1,8 @@
-import { TOGGLE_SELECTOR, TOGGLE_UNITS, UPDATE_USER_LOC } from './actions'
+import {
+  TOGGLE_SELECTOR,
+  TOGGLE_UNITS,
+  UPDATE_GEOLOC_PERMISSION
+} from './actions'
 
 import { UNITS_F_MPH, UNITS_C_KMPH } from './../../helpers/units'
 
@@ -19,10 +23,7 @@ const INITIAL_STATE = {
     [UNITS_F_MPH]: true,
     [UNITS_C_KMPH]: false
   },
-  userLoc: {
-    latitude: null,
-    longitude: null
-  }
+  userHasGrantedGeoLocPermission: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -46,14 +47,10 @@ export default (state = INITIAL_STATE, action) => {
         }
       }
 
-    case UPDATE_USER_LOC:
+    case UPDATE_GEOLOC_PERMISSION:
       return {
         ...state,
-        userLoc: {
-          ...state.userLoc,
-          latitude: action.data.latitude,
-          longitude: action.data.longitude
-        }
+        userHasGrantedGeoLocPermission: action.data.userHasGrantedGeoLocPermission
       }
 
     default:

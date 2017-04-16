@@ -14,6 +14,7 @@ const ToolTipContainer = styled.div`
 const ToolTipLabel = styled.h3`
   margin: 0 0 15px 0;
   text-align: center;
+  font-family: serif;
   font-weight: 700;
 `
 
@@ -28,7 +29,7 @@ const ToolTipDataContainer = styled.div`
 `
 
 const ToolTipDataName = styled.div`
-  width: 100px;
+  width: 90px;
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
@@ -36,7 +37,7 @@ const ToolTipDataName = styled.div`
 `
 
 const ToolTipDataValue = styled.div`
-  width: 65px;
+  width: 75px;
   float: right;
   display: inline-block;
   overflow: hidden;
@@ -44,24 +45,24 @@ const ToolTipDataValue = styled.div`
   text-align: center;
 `
 
-const CustomTooltip = ({
-  label,
-  payload,
-  unit,
-  selector
-}) => (
+const CustomTooltip = (
+  {
+    label,
+    payload,
+    unit,
+    selector
+  }
+) => (
   <ToolTipContainer>
     <ToolTipLabel>{label}</ToolTipLabel>
-    {
-      payload
-        .sort((a, b) => b.value - a.value)
-        .map(({ name, value }) =>
-          <ToolTipDataContainer key={name}>
-            <ToolTipDataName>{name}</ToolTipDataName>
-            <ToolTipDataValue>{formatSelectors(value, selector, unit, true)}</ToolTipDataValue>
-          </ToolTipDataContainer>
-        )
-    }
+    {payload.sort((a, b) => b.value - a.value).map(({ name, value }) => (
+      <ToolTipDataContainer key={name}>
+        <ToolTipDataName>{name}</ToolTipDataName>
+        <ToolTipDataValue>
+          {formatSelectors(value, selector, unit, true)}
+        </ToolTipDataValue>
+      </ToolTipDataContainer>
+    ))}
   </ToolTipContainer>
 )
 

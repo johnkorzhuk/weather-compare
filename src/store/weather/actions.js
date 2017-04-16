@@ -10,6 +10,7 @@ export const FETCH_WEATHER_SUCCESS = 'weather/FETCH_WEATHER_SUCCESS'
 export const FETCH_WEATHER_ERROR = 'weather/FETCH_WEATHER_ERROR'
 
 export const DISMISS_NOTIFICATION = 'weather/DISMISS_NOTIFICATION'
+export const UPDATE_NOTIFICATION = 'weather/UPDATE_NOTIFICATION'
 
 export const UPDATE_CURR_LOC = 'weather/UPDATE_CURR_LOC'
 export const DELETE_LOC = 'weather/DELETE_LOC'
@@ -45,7 +46,6 @@ export const fetchWeather = (...args) =>
         lng = longitude
         loc = 'current location'
       }
-      console.log(lat, lng)
 
       const forecast = await weatherService.getWeatherData(lat, lng)
       const data = {
@@ -61,7 +61,10 @@ export const fetchWeather = (...args) =>
 
       return dispatch({ type: FETCH_WEATHER_SUCCESS, data })
     } catch (e) {
-      dispatch({ type: FETCH_WEATHER_ERROR, e })
+      dispatch({
+        type: FETCH_WEATHER_ERROR,
+        data: { error: e, message: `oh no! something went wrong` }
+      })
       setTimeout(() => dispatch({ type: DISMISS_NOTIFICATION }), 5000)
       console.error(e)
     }

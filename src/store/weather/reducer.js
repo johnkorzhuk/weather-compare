@@ -5,6 +5,7 @@ import {
   UPDATE_CURR_LOC,
   DELETE_LOC,
   DISMISS_NOTIFICATION,
+  UPDATE_NOTIFICATION,
   TOGGLE_SIDEBAR,
   UPDATE_GRAPH_SELECTOR
 } from './actions'
@@ -62,6 +63,8 @@ export default (state = INITIAL_STATE, action) => {
       }
 
     case FETCH_WEATHER_SUCCESS:
+      const newLoc = Object.keys(action.data)[0]
+
       return {
         ...state,
         data: {
@@ -69,20 +72,18 @@ export default (state = INITIAL_STATE, action) => {
           ...action.data
         },
         loading: false,
-        currLoc: Object.keys(action.data)[0]
+        currLoc: newLoc,
+        currColor: action.data[newLoc].color
       }
 
     case FETCH_WEATHER_ERROR:
       return {
         ...state,
         loading: false,
-        error: action.e,
-        currColor: state.data[state.currLoc]
-          ? state.data[state.currLoc].color
-          : null,
+        error: action.data.error,
         notification: {
           type: FETCH_WEATHER_ERROR,
-          message: `couldn't get weather data`
+          message: action.data.message
         }
       }
 
@@ -103,7 +104,19 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         error: null,
         loading: false,
+        currColor: state.data[state.currLoc]
+          ? state.data[state.currLoc].color
+          : null,
         notification: null
+      }
+
+    case UPDATE_NOTIFICATION:
+      return {
+        ...state,
+        notification: {
+          type: FETCH_WEATHER_ERROR,
+          message: action.data.message
+        }
       }
 
     default:
