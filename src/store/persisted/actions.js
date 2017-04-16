@@ -9,8 +9,7 @@ import {
   FETCH_WEATHER,
   FETCH_WEATHER_SUCCESS,
   FETCH_WEATHER_ERROR,
-  DISMISS_NOTIFICATION,
-  UPDATE_NOTIFICATION
+  DISMISS_NOTIFICATION
 } from './../weather/actions'
 
 // actions
@@ -20,7 +19,7 @@ export const UPDATE_GEOLOC_PERMISSION = 'persisted/UPDATE_GEOLOC_PERMISSION'
 
 export const toggleSelector = selector =>
   (dispatch, getState) => {
-    dispatch({ type: TOGGLE_SELECTOR, data: { selector } })
+    console.log(selector)
     const { persisted } = getState()
     const newState = {
       persisted: {
@@ -31,6 +30,7 @@ export const toggleSelector = selector =>
         }
       }
     }
+    dispatch({ type: TOGGLE_SELECTOR, data: { selector } })
     saveState(newState)
   }
 
@@ -39,7 +39,6 @@ export const toggleUnits = unit =>
     const state = getState()
     const currUnit = getSelectedUnit(state)
     if (unit !== currUnit) {
-      dispatch({ type: TOGGLE_UNITS })
       const { persisted } = state
       const newState = {
         persisted: {
@@ -51,6 +50,7 @@ export const toggleUnits = unit =>
           }
         }
       }
+      dispatch({ type: TOGGLE_UNITS })
       saveState(newState)
     }
   }

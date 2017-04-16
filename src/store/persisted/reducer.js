@@ -29,6 +29,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case TOGGLE_SELECTOR:
+      console.log(!state.selectors[action.data.selector])
       return {
         ...state,
         selectors: {

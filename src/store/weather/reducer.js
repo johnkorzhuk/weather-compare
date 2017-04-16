@@ -5,7 +5,6 @@ import {
   UPDATE_CURR_LOC,
   DELETE_LOC,
   DISMISS_NOTIFICATION,
-  UPDATE_NOTIFICATION,
   TOGGLE_SIDEBAR,
   UPDATE_GRAPH_SELECTOR
 } from './actions'
@@ -108,15 +107,6 @@ export default (state = INITIAL_STATE, action) => {
           ? state.data[state.currLoc].color
           : null,
         notification: null
-      }
-
-    case UPDATE_NOTIFICATION:
-      return {
-        ...state,
-        notification: {
-          type: FETCH_WEATHER_ERROR,
-          message: action.data.message
-        }
       }
 
     default:

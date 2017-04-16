@@ -10,7 +10,6 @@ export const FETCH_WEATHER_SUCCESS = 'weather/FETCH_WEATHER_SUCCESS'
 export const FETCH_WEATHER_ERROR = 'weather/FETCH_WEATHER_ERROR'
 
 export const DISMISS_NOTIFICATION = 'weather/DISMISS_NOTIFICATION'
-export const UPDATE_NOTIFICATION = 'weather/UPDATE_NOTIFICATION'
 
 export const UPDATE_CURR_LOC = 'weather/UPDATE_CURR_LOC'
 export const DELETE_LOC = 'weather/DELETE_LOC'
